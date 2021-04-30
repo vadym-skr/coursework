@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.demo.controllers.admin;
 
 
 import com.example.demo.services.UserService;
@@ -21,7 +21,7 @@ public class adminController {
     }
 
     @GetMapping("/allUsers")
-    public String getAllUsers(Model model) {
+    public String getAllUsers() {
         return "allUsers";
     }
 }

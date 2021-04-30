@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 // анотує класи на рівні сервісу
 @Service
-// userDetailsService - використовується для отримання даних, пов'язаних з користувачем. У нього є один метод з ім'ям loadUserByUsername (), який можна перевизначити, щоб налаштувати процес пошуку користувача.
+// userDetailsService - використовується для отримання даних, пов'язаних з користувачем. У нього є один метод з ім'ям loadUserByUsername(), який можна перевизначити, щоб налаштувати процес пошуку користувача.
 public class UserService implements UserDetailsService {
     // автоматичне підключенням компонента Spring.
     @Autowired
@@ -23,14 +23,29 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.getUserByUsername(username);
-
         if(user == null) {
             throw new UsernameNotFoundException("Could not find user");
         }
         return new MyUserDetails(user);
     }
 
-    public List<User> getAll() {
+    public User getUserByUsername(String username) {
+        return userRepository.getUserByUsername(username);
+    }
+
+    public List<User> findAll() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
+    public List<User> findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
+    }
+
+    public boolean existsUserByUsername(String username) {
+        return userRepository.existsUserByUsername(username);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
 }

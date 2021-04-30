@@ -1,7 +1,7 @@
 package com.example.demo.repositories;
 
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
-import jdk.dynalink.Operation;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -9,12 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 // CrudRepository - Інтерфейс для спільних операцій CRUD з репозиторієм певного типу.
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface RoleRepository extends CrudRepository<Role, Integer> {
 
-    @Query("Select u FROM User u WHERE u.username = :username")
-    User getUserByUsername(@Param("username") String username);
-
-    List<User> findUserByUsername(String username);
-
-    boolean existsUserByUsername(String username);
+    @Query("Select r FROM Role r WHERE r.name = :name")
+    Role getRoleByName(@Param("name") String name);
 }
