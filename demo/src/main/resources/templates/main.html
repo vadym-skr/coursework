@@ -4,16 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Main page</title>
+    <style>
+        .btn {
+            display: inline-block; /* Строчно-блочный элемент */
+            background: #8C959D; /* Серый цвет фона */
+            color: #fff; /* Белый цвет текста */
+            padding: 0.5rem 0.5rem; /* Поля вокруг текста */
+            text-decoration: none; /* Убираем подчёркивание */
+            border-radius: 3px; /* Скругляем уголки */
+        }
+    </style>
 </head>
 <body>
 <div sec:authorize="isAuthenticated()">
     Welcome <span sec:authentication="name">Username</span>
-    <a th:href="@{/logout}">logout</a>
+    <hr>
+    <a th:href="@{/user}" th:class="btn">User</a>
+    <a th:href="@{/logout}" th:class="btn">Logout</a>
 </div>
 <div sec:authorize="!isAuthenticated()">
     Welcome user!
-    <a th:href="@{/login}">login</a>
+    <hr>
+    <a th:href="@{/user/registration}" th:class="btn">Registration</a>
+    <a th:href="@{/login}" th:class="btn">Login</a>
 </div>
-  Hello, world!
 </body>
 </html>
