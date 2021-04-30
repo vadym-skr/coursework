@@ -4,16 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .btn {
+            display: inline-block; /* Строчно-блочный элемент */
+            background: #8C959D; /* Серый цвет фона */
+            color: #fff; /* Белый цвет текста */
+            padding: 0.5rem 0.5rem; /* Поля вокруг текста */
+            text-decoration: none; /* Убираем подчёркивание */
+            border-radius: 3px; /* Скругляем уголки */
+        }
+    </style>
 </head>
 <body>
 
-<div sec:authorize="isAuthenticated()" th:object="user">
-    Welcome
-</div>
+<form sec:authorize="isAuthenticated()">
+    <label style="color:blue" th:text="${user.getUsername()}"></label>
+    <br>
+    <a th:href="@{/user/edit}" th:class="btn">Edit</a>
+    <a th:href="@{/logout}" th:class="btn">Logout</a>
+</form>
 
-<div sec:authorize="!isAuthenticated()">
+<form sec:authorize="!isAuthenticated()">
   you are not registered yet
-</div>
-
+    <hr>
+    <a th:href="@{/user/registration}" th:class="btn">Registration</a>
+    <a th:href="@{/login}" th:class="btn">Login</a>
+</form>
 </body>
 </html>

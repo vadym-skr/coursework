@@ -22,22 +22,22 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username);
+        User user = userRepository.findUserByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException("Could not find user");
         }
         return new MyUserDetails(user);
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepository.findUserByUsername(username);
     }
 
     public List<User> findAll() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
-    public List<User> findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+    public List<User> findUsersByUsername(String username) {
+        return userRepository.findUsersByUsername(username);
     }
 
     public boolean existsUserByUsername(String username) {

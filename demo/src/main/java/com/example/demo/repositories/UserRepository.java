@@ -12,9 +12,9 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("Select u FROM User u WHERE u.username = :username")
-    User getUserByUsername(@Param("username") String username);
+    User findUserByUsername(@Param("username") String username);
 
-    List<User> findUserByUsername(String username);
+    List<User> findUsersByUsername(String username);
 
     boolean existsUserByUsername(String username);
 }

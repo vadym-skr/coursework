@@ -53,10 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .logout() // включаэм logout
 //                    .permitAll(); // даэм дозвіл цим користуватись
         http.authorizeRequests()
-                .antMatchers("/", "/user/**").permitAll() //hasAnyAuthority("USER", "CREATOR", "EDITOR", "ADMIN")
-                .antMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
-                .antMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
-                .antMatchers("/delete/**", "/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/", "/user", "/user/registration").permitAll()
+                .antMatchers("/user/edit").hasAnyAuthority("User", "ADMIN", "CREATOR")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
