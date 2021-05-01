@@ -52,9 +52,9 @@ public class UserController {
         model.addAttribute("user", userService.findUserByUsername(userDetails.getUsername()));
         return "user/edit";
     }
-    //@PutMapping("/edit")
-    @RequestMapping(path = "/edit",
-            method=RequestMethod.PUT)
+    @PutMapping("/edit")
+//    @RequestMapping(path = "/edit",
+//            method=RequestMethod.PUT)
     public String saveUser(@ModelAttribute("user") @Valid User user,
                            BindingResult bindingResult, Model model) {
         if(userService.findUserByUsername(user.getUsername()) != null) {

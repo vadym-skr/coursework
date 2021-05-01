@@ -38,7 +38,6 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     public void encodePassword(String password) {
-        System.out.println("YES!!");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);;
     }
