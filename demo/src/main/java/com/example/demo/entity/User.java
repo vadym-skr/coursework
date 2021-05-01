@@ -37,8 +37,34 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    public User() {
+    }
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(Integer id, String username, String password, String email, boolean enabled, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
+
     public void encodePassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);;
+    }
+
+    public String getAllRolesNames() {
+        String allNames = "";
+        for(Role role: roles) {
+            allNames += role.getName() + " ";
+        }
+        return allNames;
     }
 }

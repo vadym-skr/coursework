@@ -7,10 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 
 //це для того, щоб вказати що клас може бути використаний контейнером Spring IoC як конфігураційний клас для бінов.
 @Configuration
@@ -41,20 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     //HttpSecurity - дозволяє налаштувати безпеку на основі Інтернету для певних HTTP-запитів. За замовчуванням він буде застосовуватися до всіх запитів, але його можна обмежити за допомогою requestMatcher (RequestMatcher) або інших аналогічних методів.
-    protected void configure(HttpSecurity http) throws Exception {//        http
-//                .authorizeRequests() // авторизація
-//                    .antMatchers("/", "/home").permitAll() // даєм повний дозвіл для головної сторінки
-//                    .anyRequest().authenticated() // для інших потрібно реєстрація
-//                .and()
-//                    .formLogin() // включаєм форм login
-//                    .loginPage("/login") // вказуэм на якому мапінгу находиться login
-//                    .permitAll() // даэм дозвіл цим користуватись (permit - дозволяти)
-//                .and()
-//                    .logout() // включаэм logout
-//                    .permitAll(); // даэм дозвіл цим користуватись
-        http.authorizeRequests()
-                .antMatchers("/", "/user", "/user/registration").permitAll()
-                .antMatchers("/user/edit").hasAnyAuthority("User", "ADMIN", "CREATOR")
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/user", "/user/registration", "/images/**", "/css/**").permitAll()
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN", "CREATOR")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
@@ -71,4 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
     }
+
+
+
 }

@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="httpі://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .btn {
-            display: inline-block; /* Строчно-блочный элемент */
-            background: #8C959D; /* Серый цвет фона */
-            color: #fff; /* Белый цвет текста */
-            padding: 0.5rem 0.5rem; /* Поля вокруг текста */
-            text-decoration: none; /* Убираем подчёркивание */
-            border-radius: 3px; /* Скругляем уголки */
-        }
-    </style>
-</head>
-<body>
-
-<form sec:authorize="isAuthenticated()">
-    <label style="color:blue" th:text="${user.getUsername()}"></label>
-    <br>
-    <a th:href="@{/user/edit}" th:class="btn">Edit</a>
-    <a th:href="@{/logout}" th:class="btn">Logout</a>
-</form>
-
-<form sec:authorize="!isAuthenticated()">
-  you are not registered yet
-    <hr>
-    <a th:href="@{/user/registration}" th:class="btn">Registration</a>
-    <a th:href="@{/login}" th:class="btn">Login</a>
-</form>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}"/>
+        <style>
+            table {
+                border-style: double;
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <div sec:authorize="isAuthenticated()">
+            Username - <label style="color:blue" th:text="${user.getUsername()}"></label>
+            <br>
+            Email - <label style="color:blue" th:text="${user.getEmail()}"></label>
+            <br>
+            Roles:
+            <table>
+                <tr th:each="role : ${roles}">
+                    <td> <b th:text="${role.getName()}"></b> </td>
+                    <td> <b th:text="${user.getRoles().contains(role)} ? 'YES' : 'NO'"></b> </td>
+                </tr>
+            </table>
+            <br>
+            <a th:href="@{/user/edit}" th:class="btn">Edit username or email</a>
+            <a th:href="@{/user/editPassword}" th:class="btn">Edit password</a>
+            <a th:href="@{/logout}" th:class="btn">Logout</a>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            you are not registered yet!
+            <hr>
+            <a th:href="@{/user/registration}" th:class="btn">Registration</a>
+            <a th:href="@{/login}" th:class="btn">Login</a>
+        </div>
+    </body>
 </html>

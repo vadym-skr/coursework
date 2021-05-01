@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table {
+            width: 100%; /* Ширина таблицы */
+            border-collapse: collapse; /* Убираем двойные линии между ячейками */
+            margin: auto; /* Выравниваем таблицу по центру окна  */
+        }
+        td, th {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid #000; /* Параметры рамки */
+            text-align: center;
+        }
+        th {
+            background: #000000; /* Цвет фона */
+            color: #ffffff;  /* Цвет текста */
+        }
+        tbody tr:hover {
+            background: #1b6b21; /* Цвет фона при наведении */
+            color: #fff; /* Цвет текста при наведении */
+        }
+        td:hover {
+            background-color: #04ff00;
+            color: #000000;
+        }
+    </style>
 </head>
 <body>
-All users:
+    <div>
+        <h2>All users:</h2>
+        <table border="1">
+            <tr>
+                <th> <b>id</b> </th>
+                <th> <b>username</b> </th>
+                <th> <b>email</b> </th>
+                <th> <b>enabled</b> </th>
+                <th> <b>roles</b> </th>
+                <th> <b>update/delete</b> </th>
+            </tr>
+            <tr th:each="user: ${users}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.isEnabled()}"></td>
+                <td th:text="${user.getAllRolesNames()}"></td>
+                <td>
+                    <a th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
+                    <a th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

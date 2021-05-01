@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="httpі://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <meta charset="UTF-8">
-    <title>Main page</title>
-    <style>
-        .btn {
-            display: inline-block; /* Строчно-блочный элемент */
-            background: #8C959D; /* Серый цвет фона */
-            color: #fff; /* Белый цвет текста */
-            padding: 0.5rem 0.5rem; /* Поля вокруг текста */
-            text-decoration: none; /* Убираем подчёркивание */
-            border-radius: 3px; /* Скругляем уголки */
-        }
-    </style>
-</head>
-<body>
-<div sec:authorize="isAuthenticated()">
-    Welcome <span sec:authentication="name">Username</span>
-    <hr>
-    <a th:href="@{/user}" th:class="btn">User</a>
-    <a th:href="@{/logout}" th:class="btn">Logout</a>
-</div>
-<div sec:authorize="!isAuthenticated()">
-    Welcome user!
-    <hr>
-    <a th:href="@{/user/registration}" th:class="btn">Registration</a>
-    <a th:href="@{/login}" th:class="btn">Login</a>
-</div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Main page</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}"/>
+    </head>
+    <body>
+        <div sec:authorize="isAuthenticated()">
+            Welcome <span sec:authentication="name">Username</span>
+            <hr>
+            <a th:href="@{/user}" th:class="btn">User</a>
+            <a th:href="@{/logout}" th:class="btn">Logout</a>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            Welcome user!
+            <hr>
+            <a th:href="@{/user/registration}" th:class="btn">Registration</a>
+            <a th:href="@{/login}" th:class="btn">Login</a>
+        </div>
+        <br>
+        <a th:href="@{https://github.com/Fanatic52/coursework}" title="go to the GitHub" target="_blank">
+            <img width="100" alt="go to the GitHub" src="../static/images/gitHub.png" th:src="@{images/gitHub.png}"/>
+        </a>
+    </body>
 </html>

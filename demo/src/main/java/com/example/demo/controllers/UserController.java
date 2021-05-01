@@ -1,6 +1,7 @@
-package com.example.demo.controllers.user;
+package com.example.demo.controllers;
 
 import com.example.demo.entity.MyUserDetails;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,8 +17,10 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.Set;
 
 // тут буде доступ в усіх людей(не зарієстрованих також)
 // реєстрація ввід пароля і тд.
@@ -26,6 +30,7 @@ public class UserController {
 
     private final UserService userService;
     private final RoleService roleService;
+
     @Autowired
     public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
@@ -39,38 +44,65 @@ public class UserController {
         // якщо user ввійшов то .getPrincipal() поверне MyUserDetails(це точно)
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(user.getClass().equals(MyUserDetails.class)) {
-            model.addAttribute("user", ((MyUserDetails) user).getUser());
+            model.addAttribute("user", userService.getCurrentUser());
+            model.addAttribute("roles", roleService.getAll());
         }
         return "user/user";
     }
 
     @GetMapping("/edit")
-//    @RequestMapping(path = "/edit",
-//            method=RequestMethod.GET)
     public String editUser(Model model) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("user", userService.findUserByUsername(userDetails.getUsername()));
+        model.addAttribute("user", userService.getCurrentUser());
         return "user/edit";
     }
-    @PutMapping("/edit")
-//    @RequestMapping(path = "/edit",
-//            method=RequestMethod.PUT)
-    public String saveUser(@ModelAttribute("user") @Valid User user,
-                           BindingResult bindingResult, Model model) {
-        if(userService.findUserByUsername(user.getUsername()) != null) {
+    @PostMapping("/edit")
+    public String updateUser(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult, Model model) {
+        User currentUser = userService.getCurrentUser();
+        if(!currentUser.getUsername().equals(user.getUsername()) &&
+                userService.findUserByUsername(user.getUsername()) != null) {
             model.addAttribute("usernameErr", "This username already exists");
             return "user/edit";
         }
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("email"))
             return "user/edit";
-
-        System.out.println("URAA!!");
-        return "user/user";
+        currentUser.setUsername(user.getUsername());
+        currentUser.setEmail(user.getEmail());
+        userService.saveAndUpdateCurrentUser(currentUser);
+        return "redirect:/user";
     }
+
+    @GetMapping("/editPassword")
+    public String editUserPassword(Model model) {
+        return "user/editPassword";
+    }
+    @PostMapping("/editPassword")
+    public String updateUserPassword(@RequestParam("oldPass") String oldPass,
+                                     @RequestParam("newPass") String newPass,
+                                     Model model) {
+        User currentUser = userService.getCurrentUser();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(!encoder.matches(oldPass, currentUser.getPassword())) {
+            model.addAttribute("wrongOldPass", "Password does not match!");
+            return "user/editPassword";
+        }
+        if(encoder.matches(newPass, currentUser.getPassword())) {
+            model.addAttribute("wrongNewPass", "New Password matches the old password!");
+            return "user/editPassword";
+        }
+        if(newPass.length() < 4) {
+            model.addAttribute("wrongNewPass", "The length of the new password is less than 4 characters!");
+            return "user/editPassword";
+        }
+        currentUser.setPassword(encoder.encode(newPass));
+        userService.saveAndUpdateCurrentUser(currentUser);
+        return "redirect:/user";
+    }
+
 
     //@ModelAttribute -  При використанні в якості аргументу методу він вказує, що аргумент повинен бути отриманий з моделі. Якщо він відсутній, його слід спочатку створити, а потім додати в модель, і після того, як він присутній в моделі, поля аргументів повинні бути заповнені з усіх параметрів запиту, які мають співпадаючі імена.
     @GetMapping("/registration")
-    public String registration(@ModelAttribute("user") User user) {
+    public String registrationUser(@ModelAttribute("user") User user) {
         return "user/registration";
     }
     @PostMapping("/registration")
