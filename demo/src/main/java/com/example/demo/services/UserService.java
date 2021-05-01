@@ -4,12 +4,14 @@ import com.example.demo.entity.MyUserDetails;
 import com.example.demo.entity.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 // анотує класи на рівні сервісу
@@ -29,11 +31,29 @@ public class UserService implements UserDetailsService {
         return new MyUserDetails(user);
     }
 
+    public String getCurrentUsername() {
+//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return findUserByUsername(userDetails.getUsername());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails)principal). getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return username;
+    }
+    public User getCurrentUser() {
+        return findUserByUsername(getCurrentUsername());
+    }
+    public User findUserById(Integer id) {
+        return userRepository.findUserById(id);
+    }
     public User findUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 
-    public List<User> findAll() {
+    public List<User> getAll() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
     public List<User> findUsersByUsername(String username) {
@@ -45,6 +65,15 @@ public class UserService implements UserDetailsService {
     }
 
     public void save(User user) {
+        userRepository.save(user);
+    }
+    public void saveAndUpdateCurrentUser(User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+        if(!user.getUsername().equals(userDetails.getUser().getUsername()))
+            userDetails.getUser().setUsername(user.getUsername());
+        if(!user.getPassword().equals(userDetails.getUser().getPassword()))
+            userDetails.getUser().setPassword(user.getPassword());
         userRepository.save(user);
     }
 

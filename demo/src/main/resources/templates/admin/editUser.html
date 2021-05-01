@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/admin/editUser/{id}(id=${user.getId()})}" th:object="${user}">
+        <div th:if="${#fields.hasErrors('username') or usernameErr != null or #fields.hasErrors('email')}">
+            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+            <div style="color:red" th:if="${usernameErr != null}" th:text="${usernameErr}">Username error</div>
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+        </div>
+        <div th:unless="${#fields.hasErrors('username') or usernameErr != null or #fields.hasErrors('email')}">
+            <label for="username">Username: </label>
+            <input type="text" th:field="*{username}" name="username" id="username"/>
+            <br/>
+            <label for="email">Email: </label>
+            <input type="text" th:field="*{email}" name="email" id="email"/>
+            <br/>
+            <label>Enabled:</label>
+            <input type="checkbox" th:field="*{enabled}"/>
+            <!--<input type="checkbox" th:field="*{enabled}" th:checked="${user.isEnabled()?true:false}/> -->
+            <br/>
+            <label>Roles:</label>
+            <div th:each="role : ${roles}">
+                <input type="checkbox" th:name="roles" th:value="${role.getName()}" th:checked="${user.getRoles().contains(role)}"/>
+                <label th:text="${role.getName()}"></label>
+            </div>
+            <br/>
+            <input type="submit" value="Update!">
+        </div>
+    </form>
+</body>
+</html>

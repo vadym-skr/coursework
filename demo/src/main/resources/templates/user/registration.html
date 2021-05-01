@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Registration</title>
-</head>
-<body>
-<form th:method="POST" th:action="@{/user/registration}" th:object="${user}">
-    <!--*{name} - назва поля в person для його визначення   -->
-    <label for="username">Enter username: </label>
-    <input type="text" th:field="*{username}" id="username"/>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
-    <div style="color:red" th:if="${usernameErr != null}" th:text="${usernameErr}">Username error</div>
-    <br/>
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <div  style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-    <br/>
-    <label for="password">Enter password: </label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <div  style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email error</div>
-    <br/>
-    <input type="submit" value="Create!">
-</form>
-</body>
+    <head>
+        <title>Registration</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <form th:method="POST" th:action="@{/user/registration}" th:object="${user}">
+            <label for="username">Enter username: </label>
+            <input type="text" th:field="*{username}" id="username"/>
+            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+            <div style="color:red" th:if="${usernameErr != null}" th:text="${usernameErr}">Username error</div>
+            <br/>
+            <label for="email">Enter email: </label>
+            <input type="text" th:field="*{email}" id="email"/>
+            <div  style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            <br/>
+            <label for="password">Enter password: </label>
+            <input type="text" th:field="*{password}" id="password"/>
+            <div  style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email error</div>
+            <br/>
+            <input type="submit" value="Create!">
+        </form>
+    </body>
 </html>
