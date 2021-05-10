@@ -4,22 +4,54 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
-        <link rel="stylesheet" type="text/css" th:href="@{/css/button.css}"/>
-        <style>
-            table {
-                border-style: double;
-                padding: 5px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}"/>
+<!--        <style>-->
+<!--            table {-->
+<!--                border-style: double;-->
+<!--                padding: 5px;-->
+<!--            }-->
+<!--             body {-->
+<!--                 border-top: 6px solid #3f71f2;-->
+<!--                 border-bottom: 6px solid #3f71f2;-->
+<!--                 border-left: 6px dashed #c2d3ff;-->
+<!--                 border-right: 6px dashed #c2d3ff;-->
+<!--                 border-radius: 40px 40px 40px 40px;-->
+<!--                 text-align: left;-->
+<!--                 margin: 5% 25%;-->
+<!--                 padding: 30px 50px;-->
+<!--                 font: 300% serif;-->
+<!--             }-->
+<!--            .btn {-->
+<!--                display: inline-block; /* Строчно-блочный элемент */-->
+<!--                background: #8C959D; /* Серый цвет фона */-->
+<!--                color: #fff; /* Белый цвет текста */-->
+<!--                padding: 0.5rem 0.5rem; /* Поля вокруг текста */-->
+<!--                text-decoration: none; /* Убираем подчёркивание */-->
+<!--                border-radius: 3px; /* Скругляем уголки */-->
+<!--                font: 140% serif;-->
+<!--            }-->
+<!--            input {-->
+<!--                font: 100% serif;-->
+<!--                text-align: center;-->
+<!--            }-->
+<!--            input[type=checkbox] {-->
+<!--                transform: scale(3);-->
+<!--            }-->
+<!--            h1 {-->
+<!--                text-align: center;-->
+<!--                font: 150% serif;-->
+<!--            }-->
+<!--        </style>-->
     </head>
     <body>
+        <h1>My account</h1>
         <div sec:authorize="isAuthenticated()">
             Username - <label style="color:blue" th:text="${user.getUsername()}"></label>
             <br>
             Email - <label style="color:blue" th:text="${user.getEmail()}"></label>
             <br>
             Roles:
-            <table>
+            <table border="1">
                 <tr th:each="role : ${roles}">
                     <td> <b th:text="${role.getName()}"></b> </td>
                     <td> <b th:text="${user.getRoles().contains(role)} ? 'YES' : 'NO'"></b> </td>

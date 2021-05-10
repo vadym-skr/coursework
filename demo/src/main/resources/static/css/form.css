@@ -1,0 +1,31 @@
+body {
+    border-top: 6px solid #3f71f2;
+    border-bottom: 6px solid #3f71f2;
+    border-left: 6px dashed #c2d3ff;
+    border-right: 6px dashed #c2d3ff;
+    border-radius: 40px 40px 40px 40px;
+    text-align: left;
+    margin: 5% 20%;
+    padding: 30px 50px;
+    font: 300% serif;
+}
+.btn {
+    display: inline-block; /* Строчно-блочный элемент */
+    background: #8C959D; /* Серый цвет фона */
+    color: #fff; /* Белый цвет текста */
+    padding: 0.5rem 0.5rem; /* Поля вокруг текста */
+    text-decoration: none; /* Убираем подчёркивание */
+    border-radius: 3px; /* Скругляем уголки */
+    font: 140% serif;
+}
+input {
+    font: 100% serif;
+    text-align: left;
+}
+input[type=checkbox] {
+    transform: scale(3);
+}
+h1 {
+    text-align: center;
+    font: 150% serif;
+}
