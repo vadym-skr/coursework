@@ -27,10 +27,58 @@
             color: #000000;
         }
     </style>
+    <style>
+        body {
+            font: 160% serif;
+        }
+        table {
+            border-style: double;
+            padding: 5px;
+        }
+        form {
+            border-top: 6px solid #3f71f2;
+            border-bottom: 6px solid #3f71f2;
+            border-left: 6px dashed #c2d3ff;
+            border-right: 6px dashed #c2d3ff;
+            border-radius: 40px 40px 40px 40px;
+            text-align: left;
+            margin: 1% 10% 1%;
+            padding: 30px 50px;
+            font: 100% serif;
+        }
+        .btn {
+            display: inline-block; /* Строчно-блочный элемент */
+            background: #8C959D; /* Серый цвет фона */
+            color: #fff; /* Белый цвет текста */
+            padding: 0.5rem 0.5rem; /* Поля вокруг текста */
+            text-decoration: none; /* Убираем подчёркивание */
+            border-radius: 3px; /* Скругляем уголки */
+            font: 140% serif;
+        }
+        input {
+            font: 100% serif;
+            text-align: center;
+        }
+        input[type=checkbox] {
+            transform: scale(3);
+        }
+        h1 {
+            text-align: center;
+            font: 150% serif;
+        }
+    </style>
 </head>
 <body>
     <div>
         <h2>All users:</h2>
+        <form>
+            <div style="font: 140% serif">
+                <label for="username">Username: </label>
+                <input type="text" th:name="username" id="username"/>
+            </div>
+            <br>
+            <input class="btn" type="submit" value="Search!">
+        </form>
         <table border="1">
             <tr>
                 <th> <b>id</b> </th>
@@ -47,8 +95,8 @@
                 <td th:text="${user.isEnabled()}"></td>
                 <td th:text="${user.getAllRolesNames()}"></td>
                 <td>
-                    <a th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
-                    <a th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
+                    <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
+                    <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
                 </td>
             </tr>
         </table>
