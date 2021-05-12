@@ -28,11 +28,20 @@ public class adminController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/allUsers")
-    public String getAllUsers(Model model) {
-        model.addAttribute("users", userService.getAll());
-        return "admin/allUsers";
-    }
+//    @GetMapping("/allUsers")
+//    public String getAllUsers(Model model) {
+//        int currentNum = 0, amount = 3;
+//        if(model.containsAttribute("from") && model.containsAttribute("amount"))
+//        {
+//            currentNum = (int) model.getAttribute("from");
+//        }
+//        else {
+//            model.addAttribute("from", currentNum);
+//            model.addAttribute("amount", amount);
+//        }
+//        model.addAttribute("users", userService.findUserByNumberToNumber(currentNum, amount));
+//        return "admin/allUsers";
+//    }
 
     @GetMapping("/editUser/{id}")
     public String editUser(@PathVariable Integer id, Model model) {

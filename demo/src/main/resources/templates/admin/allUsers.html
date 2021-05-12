@@ -100,6 +100,16 @@
                 </td>
             </tr>
         </table>
+        <form th:method="GET" th:action="@{/admin/allUsers}">
+            <input th:name="action" th:value="moveBack" type="hidden"/>
+            <input th:name="page" th:value="${page}" type="hidden"/>
+            <input class="btn" type="submit" value="Back!" th:disabled="${page}<= 1">
+        </form>
+        <form th:method="GET" th:action="@{/admin/allUsers}">
+            <input th:name="action" th:value="moveForward" type="hidden"/>
+            <input th:name="page" th:value="${page}" type="hidden"/>
+            <input class="btn" type="submit" value="Forward!">
+        </form>
     </div>
 </body>
 </html>
