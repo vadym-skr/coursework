@@ -60,6 +60,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findUsersByUsername(username);
     }
 
+    public List<User> findUsersByAllFields(String username, String email, Boolean enabledOne, Boolean enabledTwo) {
+        return userRepository.findUsersByAllFields(username, email, enabledOne, enabledTwo);
+    }
+
     public boolean existsUserByUsername(String username) {
         return userRepository.existsUserByUsername(username);
     }
@@ -78,4 +82,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public long count() {
+        return userRepository.count();
+    }
 }

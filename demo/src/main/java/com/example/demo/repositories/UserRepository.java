@@ -19,7 +19,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("Select u FROM User u WHERE u.id = :id")
     User findUserById(@Param("id") Integer id);
 
-    List<User> findUsersByUsername(String username);
+    @Query("Select u FROM User u WHERE u.username like %:username%")
+    List<User> findUsersByUsername(@Param("username") String username);
+
+    @Query("Select u FROM User u " +
+            "WHERE u.username like %:username% " +
+            "AND u.email like %:email% " +
+            "AND (u.enabled = :enabledOne OR u.enabled = :enabledTwo) ")
+    List<User> findUsersByAllFields(@Param("username") String username,
+                                    @Param("email") String email,
+                                    @Param("enabledOne") Boolean enabledOne,
+                                    @Param("enabledTwo") Boolean enabledTwo);
 
     boolean existsUserByUsername(String username);
+
+    long count();
 }

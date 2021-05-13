@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entity.User;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,29 +27,54 @@ public class allUsersAdminController {
     }
     @GetMapping("/allUsers")
     public String getAllUsers(
+            @RequestParam(name = "username", required = false) String username,
+            @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "page", required = false) Integer page,
-            @RequestParam(name = "action", required = false) String action,
+            @RequestParam(name = "enabled", required = false) Boolean enabled,
+            @RequestParam(name = "sort", required = false) String sort,
             Model model) {
+        int amount = 3;
+        if(username == null || username.isBlank()) {
+            username = "";
+        }
+        if(email == null || email.isBlank()) {
+            email = "";
+        }
         if(page == null) {
             page = 1;
-            model.addAttribute("page", 1);
         }
-        if(action != null)
-        {
-            System.err.println(action);
-            if(action.equals("moveBack"))
-                page -= 1;
-            else if(action.equals("moveForward"))
-                page += 1;
-            model.addAttribute("page", page);
+
+        boolean enabledOne = true;
+        boolean enabledTwo = false;
+        if(enabled != null) {
+            if(enabled) {
+                enabledOne = true;
+                enabledTwo = true;
+                enabled = true;
+            }
+            else{
+                enabledOne = false;
+                enabledTwo = false;
+                enabled = false;
+            }
         }
-//        if (model.containsAttribute("currentNum"))
-//            currentNum = (int) model.getAttribute("currentNum");
-//        else
-//            model.addAttribute("currentNum", 0);
-        int amount = 3;
-        //int finalPage = page * amount - amount;
-        model.addAttribute("users", userService.getAll().stream().limit((long) amount * page).collect(Collectors.toList()));
+        List<User> users = userService.findUsersByAllFields(username, email, enabledOne, enabledTwo);
+        if(sort != null) {
+            if(sort.equals("id up"))
+                users = users.stream().sorted(Comparator.comparingInt(User::getId)).collect(Collectors.toList());
+            if(sort.equals("id down"))
+                users = users.stream().sorted(Comparator.comparingInt(User::getId).reversed()).collect(Collectors.toList());
+        }
+            model.addAttribute("users", users.stream()
+                    .limit((long) amount * page)
+                    .collect(Collectors.toList()));
+        model.addAttribute("maxPage", ((double) users.size()) / amount);
+
+        model.addAttribute("page", page);
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+        model.addAttribute("enabled", enabled);
+        model.addAttribute("sort", sort);
         return "admin/allUsers";
     }
 
