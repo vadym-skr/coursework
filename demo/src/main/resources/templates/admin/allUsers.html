@@ -7,60 +7,82 @@
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
-    <div>
-        <h2>All users:</h2>
-        <form>
-            <div style="font: 140% serif">
-                <label for="username">Username: </label>
-                <input type="text" th:value="${username}" th:name="username" id="username"/>
-                <br>
-                <label for="email">Email: </label>
-                <input type="text" th:value="${email}" th:name="email" id="email"/>
-                <br>
-                <label for="enabled">Enabled: </label>
-                <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
-                    <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
-                    <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
-                    <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
-                </select>
-                <hr>
-                <label>Sort fields: </label>
-                <br>
-                <select th:name="sort" size="1" style="font: 100% serif">
-                    <option th:value="${null}" th:selected="${enabled == null}">none</option>
-                    <option th:value="'id up'" th:selected="${(sort != null) ? sort.equals('id up') : false}">id up</option>
-                    <option th:value="'id down'" th:selected="${(sort != null) ? sort.equals('id down') : false}">id down</option>
-                </select>
-            </div>
+<div>
+    <h2>All users:</h2>
+    <form class="formOne">
+        <div style="font: 140% serif">
+            <label> <b>Filters:</b> </label>
+            <br>
+            <label for="username">Username: </label>
+            <input type="text" th:value="${username}" th:name="username" id="username"/>
+            <br>
+            <label for="email">Email: </label>
+            <input type="text" th:value="${email}" th:name="email" id="email"/>
+            <br>
+            <label for="enabled">Enabled: </label>
+            <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
+                <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
+                <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
+                <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
+            </select>
+            <br>
+            <label for="role">Role: </label>
+            <select th:name="role" size="1" style="font: 100% serif" id="role">
+                <option th:value="${null}" th:selected="${role == null}">all</option>
+                <option th:value="'USER'" th:selected="${(role != null) ? role.equals('USER') : false}">user</option>
+                <option th:value="'EDITOR'" th:selected="${(role != null) ? role.equals('EDITOR') : false}">editor</option>
+                <option th:value="'ADMIN'" th:selected="${(role != null) ? role.equals('ADMIN') : false}">admin</option>
+            </select>
             <hr>
-            <input class="btn" type="submit" value="Search!">
-        </form>
-        <table border="1">
-            <tr>
-                <th> <b>id</b> </th>
-                <th> <b>username</b> </th>
-                <th> <b>email</b> </th>
-                <th> <b>enabled</b> </th>
-                <th> <b>roles</b> </th>
-                <th> <b>update/delete</b> </th>
-            </tr>
-            <tr th:each="user: ${users}">
-                <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getUsername()}"></td>
-                <td th:text="${user.getEmail()}"></td>
-                <td th:text="${user.isEnabled()}"></td>
-                <td th:text="${user.getAllRolesNames()}"></td>
-                <td>
-                    <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
-                    <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
-                </td>
-            </tr>
-        </table>
+            <label for="sort"> <b>Sort fields:</b> </label>
+            <br>
+            <select th:name="sort" size="1" style="font: 100% serif" id="sort">
+                <option th:value="${null}" th:selected="${sort == null}">none</option>
+                <option th:value="'id up'" th:selected="${(sort != null) ? sort.equals('id up') : false}">id up</option>
+                <option th:value="'id down'" th:selected="${(sort != null) ? sort.equals('id down') : false}">id down</option>
+                <option th:value="'username up'" th:selected="${(sort != null) ? sort.equals('username up') : false}">email up</option>
+                <option th:value="'username down'" th:selected="${(sort != null) ? sort.equals('username down') : false}">email down</option>
+                <option th:value="'email up'" th:selected="${(sort != null) ? sort.equals('email up') : false}">email up</option>
+                <option th:value="'email down'" th:selected="${(sort != null) ? sort.equals('email down') : false}">email down</option>
+                <option th:value="'enabled up'" th:selected="${(sort != null) ? sort.equals('enabled up') : false}">enabled up</option>
+                <option th:value="'enabled down'" th:selected="${(sort != null) ? sort.equals('enabled down') : false}">enabled down</option>
+            </select>
+        </div>
+        <hr>
+        <input class="btn" type="submit" value="Search!">
+    </form>
+    <table border="1">
+        <tr>
+            <th> <b>id</b> </th>
+            <th> <b>username</b> </th>
+            <th> <b>email</b> </th>
+            <th> <b>enabled</b> </th>
+            <th> <b>roles</b> </th>
+            <th> <b>update/delete</b> </th>
+        </tr>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getUsername()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.isEnabled()}"></td>
+            <td th:text="${user.getAllRolesNames()}"></td>
+            <td>
+                <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
+                <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
+            </td>
+        </tr>
+    </table>
+    <div class="formOne">
+        current page = <b th:text="${page}"></b>
+        <br>
+        amount of pages = <b th:text="${maxPage}"></b>
         <form th:method="GET" th:action="@{/admin/allUsers}">
             <input th:name="page" th:value="${page} - 1" type="hidden"/>
             <input th:name="username" th:value="${username}" type="hidden"/>
             <input th:name="email" th:value="${email}" type="hidden"/>
             <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+            <input th:name="role" th:value="${role}" type="hidden"/>
+            <input th:name="sort" th:value="${sort}" type="hidden"/>
             <input class="btn" type="submit" value="Back!" th:disabled="${page <= 1}">
         </form>
         <form th:method="GET" th:action="@{/admin/allUsers}">
@@ -68,8 +90,11 @@
             <input th:name="username" th:value="${username}" type="hidden"/>
             <input th:name="email" th:value="${email}" type="hidden"/>
             <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+            <input th:name="role" th:value="${role}" type="hidden"/>
+            <input th:name="sort" th:value="${sort}" type="hidden"/>
             <input class="btn" type="submit" value="Forward!" th:disabled="${maxPage <= page}">
         </form>
     </div>
+</div>
 </body>
 </html>

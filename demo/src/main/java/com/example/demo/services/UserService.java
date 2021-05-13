@@ -4,6 +4,10 @@ import com.example.demo.entity.MyUserDetails;
 import com.example.demo.entity.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +58,46 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return userRepository.findAll();
+    }
+    public Page<User> getAll2(int pageNumber, int pageSize, String sortField, String username, String email, Boolean enabled, String role) {
+        username = "%" + username + "%";
+        email = "%" + email + "%";
+        boolean enabledOne = true;
+        boolean enabledTwo = false;
+        if(enabled != null) {
+            if(enabled) {
+                enabledOne = true;
+                enabledTwo = true;
+            }
+            else {
+                enabledOne = false;
+                enabledTwo = false;
+            }
+        }
+
+        Sort sort = Sort.by("id").ascending();
+        if(sortField != null && !sortField.isEmpty()) {
+            if(sortField.equals("id up"))
+                sort = Sort.by("id").ascending();
+            if(sortField.equals("id down"))
+                sort = Sort.by("id").descending();
+            if(sortField.equals("username up"))
+                sort = Sort.by("username").ascending();
+            if(sortField.equals("username down"))
+                sort = Sort.by("username").descending();
+            if(sortField.equals("email up"))
+                sort = Sort.by("email").ascending();
+            if(sortField.equals("email down"))
+                sort = Sort.by("email").descending();
+            if(sortField.equals("enabled up"))
+                sort = Sort.by("enabled").ascending();
+            if(sortField.equals("enabled down"))
+                sort = Sort.by("enabled").descending();
+        }
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+        Page<User> page = userRepository.findByUsernameLikeAndEmailLikeAndEnabledOrEnabledLikeAndAllRolesNamesLike(username, email, enabledOne, enabledTwo, "USER", pageable);
+        return page;
     }
     public List<User> findUsersByUsername(String username) {
         return userRepository.findUsersByUsername(username);
@@ -63,6 +106,10 @@ public class UserService implements UserDetailsService {
     public List<User> findUsersByAllFields(String username, String email, Boolean enabledOne, Boolean enabledTwo) {
         return userRepository.findUsersByAllFields(username, email, enabledOne, enabledTwo);
     }
+
+//    public List<User> findUsersFoo(int from, int amount) {
+//        return userRepository.findUsersFoo(from, amount);
+//    }
 
     public boolean existsUserByUsername(String username) {
         return userRepository.existsUserByUsername(username);
