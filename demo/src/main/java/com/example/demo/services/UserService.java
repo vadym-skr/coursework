@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entity.MyUserDetails;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,6 @@ public class UserService implements UserDetailsService {
     }
 
     public String getCurrentUsername() {
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return findUserByUsername(userDetails.getUsername());
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         if (principal instanceof UserDetails) {
@@ -60,7 +59,14 @@ public class UserService implements UserDetailsService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
-    public Page<User> getAll2(int pageNumber, int pageSize, String sortField, String username, String email, Boolean enabled, String role) {
+    public List<User> findUsersByUsername(String username) {
+        return userRepository.findUsersByUsername(username);
+    }
+    public List<User> findUsersByAllFields(String username, String email, Boolean enabledOne, Boolean enabledTwo) {
+        return userRepository.findUsersByAllFields(username, email, enabledOne, enabledTwo);
+    }
+
+    public Page<User> getForAllUsers(int pageNumber, int pageSize, String sortField, String username, String email, Boolean enabled, Role role) {
         username = "%" + username + "%";
         email = "%" + email + "%";
         boolean enabledOne = true;
@@ -96,23 +102,8 @@ public class UserService implements UserDetailsService {
                 sort = Sort.by("enabled").descending();
         }
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
-        Page<User> page = userRepository.findByUsernameLikeAndEmailLikeAndEnabledOrEnabledLikeAndAllRolesNamesLike(username, email, enabledOne, enabledTwo, "USER", pageable);
+        Page<User> page = userRepository.findForPageAllUsers(username, email, enabledOne, enabledTwo, role, pageable);
         return page;
-    }
-    public List<User> findUsersByUsername(String username) {
-        return userRepository.findUsersByUsername(username);
-    }
-
-    public List<User> findUsersByAllFields(String username, String email, Boolean enabledOne, Boolean enabledTwo) {
-        return userRepository.findUsersByAllFields(username, email, enabledOne, enabledTwo);
-    }
-
-//    public List<User> findUsersFoo(int from, int amount) {
-//        return userRepository.findUsersFoo(from, amount);
-//    }
-
-    public boolean existsUserByUsername(String username) {
-        return userRepository.existsUserByUsername(username);
     }
 
     public void save(User user) {
@@ -127,9 +118,5 @@ public class UserService implements UserDetailsService {
         if(!user.getPassword().equals(userDetails.getUser().getPassword()))
             userDetails.getUser().setPassword(user.getPassword());
         userRepository.save(user);
-    }
-
-    public long count() {
-        return userRepository.count();
     }
 }

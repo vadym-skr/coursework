@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,21 +28,6 @@ public class adminController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
-//    @GetMapping("/allUsers")
-//    public String getAllUsers(Model model) {
-//        int currentNum = 0, amount = 3;
-//        if(model.containsAttribute("from") && model.containsAttribute("amount"))
-//        {
-//            currentNum = (int) model.getAttribute("from");
-//        }
-//        else {
-//            model.addAttribute("from", currentNum);
-//            model.addAttribute("amount", amount);
-//        }
-//        model.addAttribute("users", userService.findUserByNumberToNumber(currentNum, amount));
-//        return "admin/allUsers";
-//    }
 
     @GetMapping("/editUser/{id}")
     public String editUser(@PathVariable Integer id, Model model) {
@@ -87,5 +73,55 @@ public class adminController {
         userService.save(user);
 
         return "redirect:/admin/allUsers";
+    }
+
+    @GetMapping("/allUsers")
+    public String getAllUsers(
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "username", required = false) String username,
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name = "enabled", required = false) Boolean enabled,
+            @RequestParam(name = "role", required = false) String role,
+            @RequestParam(name = "sort", required = false) String sortField,
+            Model model) {
+        int size = 4;
+        Role roleFromBD;
+
+        if(page == null) {
+            page = 1;
+        }
+
+        if(username == null || username.isBlank()) {
+            username = "";
+        }
+
+        if(email == null || email.isBlank()) {
+            email = "";
+        }
+
+        if(role == null || role.isEmpty()) {
+            role = "";
+            roleFromBD = roleService.getRoleByName("USER");
+        }
+        else {
+            roleFromBD = roleService.getRoleByName(role);
+        }
+
+        if(sortField == null) {
+            sortField = "";
+        }
+
+        Page<User> users = userService.getForAllUsers(page - 1, size, sortField, username, email, enabled, roleFromBD);
+
+        model.addAttribute("users", users.getContent());
+        model.addAttribute("maxPage", users.getTotalPages());
+        model.addAttribute("page", page);
+        model.addAttribute("username", username);
+        model.addAttribute("email", email);
+        model.addAttribute("enabled", enabled);
+        model.addAttribute("role", role);
+        model.addAttribute("sort", sortField);
+
+        return "admin/allUsers";
     }
 }
