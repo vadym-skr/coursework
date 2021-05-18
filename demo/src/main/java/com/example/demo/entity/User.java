@@ -55,9 +55,9 @@ public class User {
         this.roles = roles;
     }
 
-    public void encodePassword(String password) {
+    public String encodePassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.password = encoder.encode(password);;
+        return encoder.encode(password);
     }
 
     public String getAllRolesNames() {

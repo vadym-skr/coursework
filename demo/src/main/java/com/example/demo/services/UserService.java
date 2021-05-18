@@ -17,13 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 // анотує класи на рівні сервісу
 @Service
 // userDetailsService - використовується для отримання даних, пов'язаних з користувачем. У нього є один метод з ім'ям loadUserByUsername(), який можна перевизначити, щоб налаштувати процес пошуку користувача.
 public class UserService implements UserDetailsService {
-    // автоматичне підключенням компонента Spring.
     @Autowired
     private UserRepository userRepository;
 
@@ -106,10 +103,16 @@ public class UserService implements UserDetailsService {
         return page;
     }
 
+    public void create(User user, Role role) {
+        user.setPassword(user.encodePassword(user.getPassword()));
+        user.setEnabled(true);
+        user.setRoles(Collections.singleton(role));
+        //user.setActivationCode(UUID.randomUUID().toString());
+        userRepository.save(user);
+    }
     public void save(User user) {
         userRepository.save(user);
     }
-
     public void saveAndUpdateCurrentUser(User user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
