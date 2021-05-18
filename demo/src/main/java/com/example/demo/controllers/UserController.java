@@ -33,8 +33,6 @@ public class UserController {
     public String ShowUser(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
         model.addAttribute("roles", roleService.getAll());
-        //"r.vitalik.skuratov@gmail.com"
-        mailSender.send("vadim.skuratovskij@gmail.com", "Active code", "Hello user, ;)");
         return "user/user";
     }
 
@@ -93,6 +91,7 @@ public class UserController {
     }
     @PostMapping("/registration")
     public String createUser(@ModelAttribute("user") @Valid User user,
+                             @ModelAttribute("code") String code,
                              BindingResult bindingResult, Model model) {
         if(userService.findUserByUsername(user.getUsername()) != null) {
             model.addAttribute("usernameErr", "This username already exists");
@@ -100,7 +99,19 @@ public class UserController {
         }
         if (bindingResult.hasErrors())
             return "user/registration";
-
+        if (user.getActivatedCode() == null) {
+            String newCode = UUID.randomUUID().toString();
+            user.setActivatedCode(newCode);
+            model.addAttribute("user", user);
+            System.out.println(newCode); //todo delete id
+            mailSender.send(user.getEmail(), "Active code", "Hello " + user.getUsername() + ", it's your code:\n" + user.getActivatedCode());
+            return "user/registration";
+        }
+        if (!user.getActivatedCode().equals(code)) {
+            model.addAttribute("errCode", "It was a wrong code!");
+            model.addAttribute("user", user);
+            return "user/registration";
+        }
         userService.create(user,roleService.getRoleByName("USER"));
 
         return "redirect:/user";

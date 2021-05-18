@@ -28,6 +28,8 @@ public class User {
     @Email(message = "Format of email is wrong")
     private String email;
     private boolean enabled;
+    @Transient
+    private String activatedCode;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
