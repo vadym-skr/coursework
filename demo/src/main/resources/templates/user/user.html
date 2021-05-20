@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <link th:href="@{/css/form.css}" href="../../static/css/form.css"
-              rel="stylesheet" type="text/css" media="screen"/>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}" class="active">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="body">
         <h1>My account</h1>
         <div th:if="${user != null}">
             Username - <label style="color:blue" th:text="${user.getUsername()}"></label>
@@ -20,16 +35,30 @@
                     <td> <b th:text="${user.getRoles().contains(role)} ? 'YES' : 'NO'"></b> </td>
                 </tr>
             </table>
+            <hr>
+            <a th:href="@{/user/edit}">
+                <button class="button1">Edit username or email</button>
+            </a>
             <br>
-            <a th:href="@{/user/edit}" th:class="btn">Edit username or email</a>
-            <a th:href="@{/user/editPassword}" th:class="btn">Edit password</a>
-            <a th:href="@{/logout}" th:class="btn">Logout</a>
+            <a th:href="@{/user/editPassword}">
+                <button class="button1">Edit password</button>
+            </a>
+            <br>
+            <a th:href="@{/logout}">
+                <button class="button1">Logout</button>
+            </a>
         </div>
         <div th:unless="${user != null}">
             you are not registered yet!
             <hr>
-            <a th:href="@{/user/registration}" th:class="btn">Registration</a>
-            <a th:href="@{/login}" th:class="btn">Login</a>
+            <a th:href="@{/user/registration}">
+                <button class="button1">Registration</button>
+            </a>
+            <br>
+            <a th:href="@{/login}">
+                <button class="button1">Login</button>
+            </a>
         </div>
-    </body>
+    </div>
+</body>
 </html>

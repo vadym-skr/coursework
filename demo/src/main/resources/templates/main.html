@@ -1,62 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="httpі://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-    <head>
-        <meta charset="UTF-8">
-        <title>Main page</title>
-        <link th:href="@{/css/form.css}" href="../../static/css/form.css"
-              rel="stylesheet" type="text/css" media="screen"/>
-<!--        <style>-->
-<!--            body {-->
-<!--                border-top: 6px solid #3f71f2;-->
-<!--                border-bottom: 6px solid #3f71f2;-->
-<!--                border-left: 6px dashed #c2d3ff;-->
-<!--                border-right: 6px dashed #c2d3ff;-->
-<!--                border-radius: 40px 40px 40px 40px;-->
-<!--                text-align: left;-->
-<!--                margin: 5% 25%;-->
-<!--                padding: 30px 50px;-->
-<!--                font: 300% serif;-->
-<!--            }-->
-<!--            .btn {-->
-<!--                display: inline-block; /* Строчно-блочный элемент */-->
-<!--                background: #8C959D; /* Серый цвет фона */-->
-<!--                color: #fff; /* Белый цвет текста */-->
-<!--                padding: 0.5rem 0.5rem; /* Поля вокруг текста */-->
-<!--                text-decoration: none; /* Убираем подчёркивание */-->
-<!--                border-radius: 3px; /* Скругляем уголки */-->
-<!--                font: 140% serif;-->
-<!--            }-->
-<!--            input {-->
-<!--                font: 100% serif;-->
-<!--                text-align: center;-->
-<!--            }-->
-<!--            input[type=checkbox] {-->
-<!--                transform: scale(3);-->
-<!--            }-->
-<!--            h1 {-->
-<!--                text-align: center;-->
-<!--                font: 150% serif;-->
-<!--            }-->
-<!--        </style>-->
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}" class="active">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="body">
         <h1>Main page</h1>
         <div sec:authorize="isAuthenticated()">
             Welcome <span sec:authentication="name">Username</span>
             <hr>
-            <a th:href="@{/user}" th:class="btn">User</a>
-            <a th:href="@{/logout}" th:class="btn">Logout</a>
+            <a th:href="@{/user}">
+                <button class="button1">User</button>
+            </a>
+            <a th:href="@{/logout}">
+                <button class="button1">Logout</button>
+            </a>
         </div>
         <div sec:authorize="!isAuthenticated()">
             Welcome user!
             <hr>
-            <a th:href="@{/user/registration}" th:class="btn">Registration</a>
-            <a th:href="@{/login}" th:class="btn">Login</a>
+            <a th:href="@{/user/registration}">
+                <button class="button1">Registration</button>
+            </a>
+            <a th:href="@{/login}">
+                <button class="button1">Login</button>
+            </a>
         </div>
         <br>
-        <a th:href="@{https://github.com/Fanatic52/coursework}" title="go to the GitHub" target="_blank">
-            <img width="100" alt="go to the GitHub" src="../static/images/gitHub.png" th:src="@{images/gitHub.png}"/>
-        </a>
-    </body>
+<!--        <a th:href="@{https://github.com/Fanatic52/coursework}" title="go to the GitHub" target="_blank">-->
+<!--            <img width="50" alt="go to the GitHub" src="../static/images/gitHub.png" th:src="@{images/gitHub.png}"/>-->
+<!--        </a>-->
+    </div>
+</body>
 </html>

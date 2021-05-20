@@ -3,23 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link th:href="@{/css/form.css}" href="../../static/css/form.css"
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
-    <form class="form" th:method="POST" th:action="@{/admin/editUser/{id}(id=${user.getId()})}" th:object="${user}">
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="body">
         <h1>Form edit account</h1>
-        <div th:if="${#fields.hasErrors('username') or usernameErr != null or #fields.hasErrors('email')}">
+        <form th:method="POST" th:action="@{/admin/editUser/{id}(id=${user.getId()})}" th:object="${user}">
+            <label for="username">Username: </label> <br>
+            <input type="text" th:field="*{username}" name="username" id="username"/>
             <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
             <div style="color:red" th:if="${usernameErr != null}" th:text="${usernameErr}">Username error</div>
-            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-        </div>
-        <div th:unless="${#fields.hasErrors('username') or usernameErr != null or #fields.hasErrors('email')}">
-            <label for="username">Username: </label>
-            <input type="text" th:field="*{username}" name="username" id="username"/>
             <br/>
-            <label for="email">Email: </label>
+            <label for="email">Email: </label>  <br>
             <input type="text" th:field="*{email}" name="email" id="email"/>
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             <br/>
             <label>Enabled:</label>
             <input type="checkbox" th:field="*{enabled}"/>
@@ -30,8 +42,8 @@
                 <label th:text="${role.getName()}"></label>
             </div>
             <br/>
-            <input class="btn" type="submit" value="Update!">
-        </div>
-    </form>
+            <input class="button1" type="submit" value="Update!">
+        </form>
+    </div>
 </body>
 </html>

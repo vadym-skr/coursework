@@ -5,114 +5,131 @@
     <title>Title</title>
     <link th:href="@{/css/admin/allUsers.css}" href="../../static/css/admin/allUsers.css"
           rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
-<div>
-    <h2>All users:</h2>
-    <form class="formOne">
-        <div style="font: 140% serif">
-            <label> <b>Filters:</b> </label>
-            <br>
-            <label for="username">Username: </label>
-            <input type="text" th:value="${username}" th:name="username" id="username"/>
-            <br>
-            <label for="email">Email: </label>
-            <input type="text" th:value="${email}" th:name="email" id="email"/>
-            <br>
-            <label for="enabled">Enabled: </label>
-            <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
-                <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
-                <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
-                <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
-            </select>
-            <br>
-            <label for="role">Role: </label>
-            <select th:name="role" size="1" style="font: 100% serif" id="role">
-                <option th:value="''" th:selected="${role.equals('')}">all</option>
-                <option th:value="'USER'" th:selected="${role.equals('USER')}">user</option>
-                <option th:value="'EDITOR'" th:selected="${role.equals('EDITOR')}">editor</option>
-                <option th:value="'ADMIN'" th:selected="${role.equals('ADMIN')}">admin</option>
-            </select>
-            <hr>
-            <label for="sort"> <b>Sort fields:</b> </label>
-            <br>
-            <select th:name="sort" size="1" style="font: 100% serif" id="sort">
-                <option th:value="''" th:selected="${sort.equals('')}">none</option>
-                <option th:value="'id up'" th:selected="${sort.equals('id up')}">id up</option>
-                <option th:value="'id down'" th:selected="${sort.equals('id down')}">id down</option>
-                <option th:value="'username up'" th:selected="${sort.equals('username up')}">email up</option>
-                <option th:value="'username down'" th:selected="${sort.equals('username down')}">email down</option>
-                <option th:value="'email up'" th:selected="${sort.equals('email up')}">email up</option>
-                <option th:value="'email down'" th:selected="${sort.equals('email down')}">email down</option>
-                <option th:value="'enabled up'" th:selected="${sort.equals('enabled up')}">enabled up</option>
-                <option th:value="'enabled down'" th:selected="${sort.equals('enabled down')}">enabled down</option>
-            </select>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
         </div>
-        <hr>
-        <input class="btn" type="submit" value="Search!">
-    </form>
-    <table border="1">
-        <tr>
-            <th> <b>id</b> </th>
-            <th> <b>username</b> </th>
-            <th> <b>email</b> </th>
-            <th> <b>enabled</b> </th>
-            <th> <b>roles</b> </th>
-            <th> <b>update/delete</b> </th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.getId()}"></td>
-            <td th:text="${user.getUsername()}"></td>
-            <td th:text="${user.getEmail()}"></td>
-            <td th:text="${user.isEnabled()}"></td>
-            <td th:text="${user.getAllRolesNames()}"></td>
-            <td>
-                <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
-                <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
-            </td>
-        </tr>
-    </table>
-    <div class="formOne">
-        current page = <b th:text="${page}"></b>
-        <br>
-        amount of pages = <b th:text="${maxPage}"></b>
-        <div>
-            <a th:if="${page != 1}" th:href="@{'/admin/allUsers'
-                                                 + '?page=' + ${1}
-                                                 + '&username=' + ${username}
-                                                 + '&email=' + ${email}
-                                                 + '&enabled='+ ${(enabled!=null ? enabled : '')}
-                                                 + '&role=' + ${role}
-                                                 + '&sort=' + ${sort}}" th:text="First"></a>
-            <span th:unless="${page != 1}">First</span>
-            <a th:if="${page != maxPage}" th:href="@{'/admin/allUsers'
-                                                 + '?page=' + ${maxPage}
-                                                 + '&username=' + ${username}
-                                                 + '&email=' + ${email}
-                                                 + '&enabled='+ ${(enabled!=null ? enabled : '')}
-                                                 + '&role=' + ${role}
-                                                 + '&sort=' + ${sort}}" th:text="Last"></a>
-            <span th:unless="${page != maxPage}">Last</span>
-        </div>
-        <form th:method="GET" th:action="@{/admin/allUsers}">
-            <input th:name="page" th:value="${page} - 1" type="hidden"/>
-            <input th:name="username" th:value="${username}" type="hidden"/>
-            <input th:name="email" th:value="${email}" type="hidden"/>
-            <input th:name="enabled" th:value="${enabled}" type="hidden"/>
-            <input th:name="role" th:value="${role}" type="hidden"/>
-            <input th:name="sort" th:value="${sort}" type="hidden"/>
-            <input class="btn" type="submit" value="Back!" th:disabled="${page <= 1}">
-        </form>
-        <form th:method="GET" th:action="@{/admin/allUsers}">
-            <input th:name="page" th:value="${page + 1}" type="hidden"/>
-            <input th:name="username" th:value="${username}" type="hidden"/>
-            <input th:name="email" th:value="${email}" type="hidden"/>
-            <input th:name="enabled" th:value="${enabled}" type="hidden"/>
-            <input th:name="role" th:value="${role}" type="hidden"/>
-            <input th:name="sort" th:value="${sort}" type="hidden"/>
-            <input class="btn" type="submit" value="Forward!" th:disabled="${maxPage <= page}">
-        </form>
     </div>
-</div>
+    <div>
+        <h2>All users:</h2>
+        <form class="formOne">
+            <div style="font: 140% serif">
+                <label> <b>Filters:</b> </label>
+                <br>
+                <label for="username">Username: </label>
+                <input type="text" th:value="${username}" th:name="username" id="username"/>
+                <br>
+                <label for="email">Email: </label>
+                <input type="text" th:value="${email}" th:name="email" id="email"/>
+                <br>
+                <label for="enabled">Enabled: </label>
+                <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
+                    <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
+                    <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
+                    <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
+                </select>
+                <br>
+                <label for="role">Role: </label>
+                <select th:name="role" size="1" style="font: 100% serif" id="role">
+                    <option th:value="''" th:selected="${role.equals('')}">all</option>
+                    <option th:value="'USER'" th:selected="${role.equals('USER')}">user</option>
+                    <option th:value="'EDITOR'" th:selected="${role.equals('EDITOR')}">editor</option>
+                    <option th:value="'ADMIN'" th:selected="${role.equals('ADMIN')}">admin</option>
+                </select>
+                <hr>
+                <label for="sort"> <b>Sort fields:</b> </label>
+                <br>
+                <select th:name="sort" size="1" style="font: 100% serif" id="sort">
+                    <option th:value="''" th:selected="${sort.equals('')}">none</option>
+                    <option th:value="'id up'" th:selected="${sort.equals('id up')}">id up</option>
+                    <option th:value="'id down'" th:selected="${sort.equals('id down')}">id down</option>
+                    <option th:value="'username up'" th:selected="${sort.equals('username up')}">email up</option>
+                    <option th:value="'username down'" th:selected="${sort.equals('username down')}">email down</option>
+                    <option th:value="'email up'" th:selected="${sort.equals('email up')}">email up</option>
+                    <option th:value="'email down'" th:selected="${sort.equals('email down')}">email down</option>
+                    <option th:value="'enabled up'" th:selected="${sort.equals('enabled up')}">enabled up</option>
+                    <option th:value="'enabled down'" th:selected="${sort.equals('enabled down')}">enabled down</option>
+                </select>
+            </div>
+            <hr>
+            <input class="button1" type="submit" value="Search!">
+        </form>
+        <table border="1">
+            <tr>
+                <th> <b>id</b> </th>
+                <th> <b>username</b> </th>
+                <th> <b>email</b> </th>
+                <th> <b>enabled</b> </th>
+                <th> <b>roles</b> </th>
+                <th> <b>update/delete</b> </th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.isEnabled()}"></td>
+                <td th:text="${user.getAllRolesNames()}"></td>
+                <td>
+                    <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
+                    <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
+                </td>
+            </tr>
+        </table>
+        <div class="formOne">
+            current page = <b th:text="${page}"></b>
+            <br>
+            amount of pages = <b th:text="${maxPage}"></b>
+            <div>
+                <a th:if="${page != 1}" th:href="@{'/admin/allUsers'
+                                                     + '?page=' + ${1}
+                                                     + '&username=' + ${username}
+                                                     + '&email=' + ${email}
+                                                     + '&enabled='+ ${(enabled!=null ? enabled : '')}
+                                                     + '&role=' + ${role}
+                                                     + '&sort=' + ${sort}}" th:text="First"></a>
+                <span th:unless="${page != 1}">First</span>
+                <a th:if="${page != maxPage}" th:href="@{'/admin/allUsers'
+                                                     + '?page=' + ${maxPage}
+                                                     + '&username=' + ${username}
+                                                     + '&email=' + ${email}
+                                                     + '&enabled='+ ${(enabled!=null ? enabled : '')}
+                                                     + '&role=' + ${role}
+                                                     + '&sort=' + ${sort}}" th:text="Last"></a>
+                <span th:unless="${page != maxPage}">Last</span>
+            </div>
+            <form th:method="GET" th:action="@{/admin/allUsers}">
+                <input th:name="page" th:value="${page} - 1" type="hidden"/>
+                <input th:name="username" th:value="${username}" type="hidden"/>
+                <input th:name="email" th:value="${email}" type="hidden"/>
+                <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+                <input th:name="role" th:value="${role}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
+                <input class="button1" type="submit" value="Back!" th:disabled="${page <= 1}">
+            </form>
+            <br>
+            <form th:method="GET" th:action="@{/admin/allUsers}">
+                <input th:name="page" th:value="${page + 1}" type="hidden"/>
+                <input th:name="username" th:value="${username}" type="hidden"/>
+                <input th:name="email" th:value="${email}" type="hidden"/>
+                <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+                <input th:name="role" th:value="${role}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
+                <input class="button1" type="submit" value="Forward!" th:disabled="${maxPage <= page}">
+            </form>
+        </div>
+    </div>
 </body>
 </html>

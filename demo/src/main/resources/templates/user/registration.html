@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Registration</title>
-        <meta charset="UTF-8">
-        <link th:href="@{/css/form.css}" href="../../static/css/form.css"
-              rel="stylesheet" type="text/css" media="screen"/>
-    </head>
-    <body>
+<head>
+    <title>Registration</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}" class="active">Registration</a>
+        </div>
+    </div>
+    <div class="body">
         <h1>Registration</h1>
         <form th:method="POST" th:action="@{/user/registration}" th:object="${user}">
-            <label for="username">Enter username: </label>
+            <label for="username">Enter username: </label> <br>
             <input type="text" th:field="*{username}" id="username"/>
             <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
             <div style="color:red" th:if="${usernameErr != null}" th:text="${usernameErr}">Username error</div>
             <br/>
-            <label for="email">Enter email: </label>
+            <label for="email">Enter email: </label> <br>
             <input type="text" th:field="*{email}" id="email"/>
             <div  style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             <br/>
-            <label for="password">Enter password: </label>
+            <label for="password">Enter password: </label> <br>
             <input type="text" th:field="*{password}" id="password"/>
             <div  style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email error</div>
             <br/>
             <div th:unless="${user.getActivatedCode()==null}">
                 <input type="hidden" th:field="*{activatedCode}"/>
-                <label for="code">Code activated: </label>
+                <label for="code">Code activated: </label> <br>
                 <input type="text" th:name="code" id="code"/>
                 <div  style="color:red" th:if="${errCode != null}" th:text="${errCode}">Code error</div>
                 <br/>
             </div>
-            <input class="btn" type="submit" value="Create!">
+            <input class="button1" type="submit" value="Create!">
         </form>
-    </body>
+    </div>
+</body>
 </html>

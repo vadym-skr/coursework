@@ -42,12 +42,15 @@ public class AdminController {
                            @RequestParam(name = "roles", required = false) String[] roles,
                            Model model) {
         User user = userService.findUserById(newUser.getId());
-
         if(!newUser.getUsername().equals(user.getUsername()) && userService.findUserByUsername(newUser.getUsername()) != null) {
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.getAll());
             model.addAttribute("usernameErr", "This username already exists");
             return "admin/editUser";
         }
         if (bindingResult.hasFieldErrors("username") || bindingResult.hasFieldErrors("email")) {
+            model.addAttribute("user", user);
+            model.addAttribute("roles", roleService.getAll());
             return "admin/editUser";
         }
 
