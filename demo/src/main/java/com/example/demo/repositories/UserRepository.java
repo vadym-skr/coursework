@@ -1,13 +1,15 @@
 package com.example.demo.repositories;
 
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.Role;
+import com.example.demo.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.util.List;
 
 // CrudRepository - Інтерфейс для спільних операцій CRUD з репозиторієм певного типу.
@@ -37,4 +39,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             " AND (u.enabled =:enabledOne or u.enabled =:enabledTwo)" +
             " AND :role member u.roles")
     Page<User> findForPageAllUsers(String username, String email, boolean enabledOne, boolean enabledTwo, Role role, Pageable pageable);
+
+    void deleteUserById(Integer id);
 }

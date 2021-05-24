@@ -1,19 +1,19 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.Role;
+import com.example.demo.entity.user.User;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Controller
@@ -27,6 +27,11 @@ public class AdminController {
     public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
+    }
+
+    @GetMapping
+    public String showAdmin() {
+        return "admin/admin";
     }
 
     @GetMapping("/editUser/{id}")
@@ -127,4 +132,13 @@ public class AdminController {
 
         return "admin/allUsers";
     }
+
+    @Transactional
+    @PostMapping("/allUsers")
+    public String deleteUser(@RequestParam(name = "userId") Integer id, Model model){
+        roleService.deleteUsersRolesForUser(id);
+        userService.deleteUserById(id);
+        return "redirect:/admin/allUsers";
+    }
+
 }

@@ -18,13 +18,34 @@ table {
 }
 .btn {
     display: inline-block; /* Строчно-блочный элемент */
-    background: #8C959D; /* Серый цвет фона */
+    background: gray; /* Серый цвет фона */
     color: #fff; /* Белый цвет текста */
     padding: 0.5rem 0.5rem; /* Поля вокруг текста */
     text-decoration: none; /* Убираем подчёркивание */
     border-radius: 3px; /* Скругляем уголки */
     font: 140% serif;
 }
+.btnDelete,.btnEdit {
+    display: inline-block;
+    padding: 0.5rem 0.5rem;
+    text-decoration: none;
+    border-radius: 3px;
+    font: 140% serif;
+    color: white;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    cursor: pointer;
+}
+.btnDelete {
+    background: red;
+}
+.btnEdit {
+    background: darkgreen; /* Серый цвет фона */
+}
+
+
 input {
     font: 100% serif;
     text-align: center;

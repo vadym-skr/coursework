@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.User;
 import com.example.demo.services.MailSender;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
@@ -116,19 +116,4 @@ public class UserController {
 
         return "redirect:/user";
     }
-
-//    @GetMapping("/activate")
-//    public String activateUser(@RequestParam("code") String oldPass,
-//            Model model) {
-//        //String code = UUID.randomUUID().toString();
-//        model.addAttribute("code", code);
-//        return "user/editPassword";
-//    }
-//    @GetMapping("/activate")
-//    public String activateUser(@RequestParam("code") String oldPass,
-//            Model model) {
-//        String code = UUID.randomUUID().toString();
-//        model.addAttribute("code", code);
-//        return "redirect:/user";
-//    }
 }

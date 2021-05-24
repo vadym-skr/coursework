@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link th:href="@{/css/admin/allUsers.css}" href="../../static/css/admin/allUsers.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}" class="active">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="body">
+        <h1>Hello Admin!</h1> <br>
+        <a th:href="@{/admin/allUsers}">
+            <button class="button1">All Users</button>
+        </a>
+    </div>
+</body>
+</html>

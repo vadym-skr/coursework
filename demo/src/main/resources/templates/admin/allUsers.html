@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>All Users</title>
     <link th:href="@{/css/admin/allUsers.css}" href="../../static/css/admin/allUsers.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
@@ -74,7 +74,8 @@
                 <th> <b>email</b> </th>
                 <th> <b>enabled</b> </th>
                 <th> <b>roles</b> </th>
-                <th> <b>update/delete</b> </th>
+                <th> <b>update</b> </th>
+                <th> <b>delete</b> </th>
             </tr>
             <tr th:each="user : ${users}">
                 <td th:text="${user.getId()}"></td>
@@ -83,8 +84,13 @@
                 <td th:text="${user.isEnabled()}"></td>
                 <td th:text="${user.getAllRolesNames()}"></td>
                 <td>
-                    <a class="btn" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
-                    <a class="btn" th:href="@{/admin/deleteUser/{id}(id=${user.getId()})}"><b>delete</b></a>
+                    <a class="btnEdit" th:href="@{/admin/editUser/{id}(id=${user.getId()})}"><b>update</b></a>
+                </td>
+                <td>
+                    <form th:method="POST" th:action="@{/admin/allUsers}">
+                        <input th:name="userId" th:value="${user.getId()}" type="hidden">
+                        <input class="btnDelete" type="submit" value="delete">
+                    </form>
                 </td>
             </tr>
         </table>

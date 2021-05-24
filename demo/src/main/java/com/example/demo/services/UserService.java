@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.entity.MyUserDetails;
-import com.example.demo.entity.Role;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.MyUserDetails;
+import com.example.demo.entity.user.Role;
+import com.example.demo.entity.user.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 // анотує класи на рівні сервісу
@@ -121,5 +122,9 @@ public class UserService implements UserDetailsService {
         if(!user.getPassword().equals(userDetails.getUser().getPassword()))
             userDetails.getUser().setPassword(user.getPassword());
         userRepository.save(user);
+    }
+    public void delete(User user) {userRepository.delete(user);}
+    public void deleteUserById(Integer id) {
+        userRepository.deleteUserById(id);
     }
 }
