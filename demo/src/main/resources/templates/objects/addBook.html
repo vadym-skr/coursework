@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add book</title>
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="body">
+        <h1>Add book</h1>
+        <form th:method="POST" th:action="@{/objects/addBook}" th:object="${book}">
+            <label for="name">Name: </label> <br>
+            <input type="text" th:field="*{name}" id="name"/>
+            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+            <br>
+            <label for="author">Author: </label> <br>
+            <input type="text" th:field="*{author}" id="author"/>
+            <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
+            <br>
+            <label for="pages">Pages: </label> <br>
+            <input type="text" th:field="*{pages}" id="pages"/>
+            <div style="color:red" th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}">Pages error</div>
+            <br>
+            <label for="country">Country: </label> <br>
+            <input type="text" th:field="*{country}" id="country"/>
+            <div style="color:red" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Country error</div>
+            <br>
+            <label for="description">Description: </label> <br>
+            <input type="text" th:field="*{description}" id="description"/>
+            <div style="color:red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
+            <br>
+            <label>Genres:</label>
+            <div th:each="genre : ${allGenres}">
+                <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
+                <label th:text="${genre.getName()}"></label>
+            </div>
+            <br>
+            <input class="button1" type="submit" value="Create!">
+        </form>
+    </div>
+</body>
+</html>
