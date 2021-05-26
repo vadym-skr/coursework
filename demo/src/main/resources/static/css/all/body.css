@@ -9,6 +9,12 @@
     padding: 30px 50px;
     font: 300% serif;
 }
+.books_list {
+    text-align: left;
+    margin: 1% 20%;
+    padding: 30px 50px;
+    font: 300% serif;
+}
 input {
     font: 100% serif;
     text-align: left;

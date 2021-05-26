@@ -98,43 +98,50 @@
             current page = <b th:text="${page}"></b>
             <br>
             amount of pages = <b th:text="${maxPage}"></b>
-            <div>
-                <a th:if="${page != 1}" th:href="@{'/admin/allUsers'
+            <br>
+            <div id="array_buttons_center">
+
+                <a class="button1" th:if="${page != 1}" th:href="@{'/admin/allUsers'
                                                      + '?page=' + ${1}
                                                      + '&username=' + ${username}
                                                      + '&email=' + ${email}
                                                      + '&enabled='+ ${(enabled!=null ? enabled : '')}
                                                      + '&role=' + ${role}
                                                      + '&sort=' + ${sort}}" th:text="First"></a>
-                <span th:unless="${page != 1}">First</span>
-                <a th:if="${page != maxPage}" th:href="@{'/admin/allUsers'
+                <span class="button1_non_action" th:unless="${page != 1}">First</span>
+
+                <form th:if="${page != 1}" th:method="GET" th:action="@{/admin/allUsers}">
+                    <input th:name="page" th:value="${page} - 1" type="hidden"/>
+                    <input th:name="username" th:value="${username}" type="hidden"/>
+                    <input th:name="email" th:value="${email}" type="hidden"/>
+                    <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+                    <input th:name="role" th:value="${role}" type="hidden"/>
+                    <input th:name="sort" th:value="${sort}" type="hidden"/>
+                    <input class="button1" type="submit" value="Back" th:disabled="${page <= 1}">
+                </form>
+                <span class="button1_non_action" th:unless="${page != 1}">Back</span>
+
+                <form th:if="${page != maxPage}" th:method="GET" th:action="@{/admin/allUsers}">
+                    <input th:name="page" th:value="${page + 1}" type="hidden"/>
+                    <input th:name="username" th:value="${username}" type="hidden"/>
+                    <input th:name="email" th:value="${email}" type="hidden"/>
+                    <input th:name="enabled" th:value="${enabled}" type="hidden"/>
+                    <input th:name="role" th:value="${role}" type="hidden"/>
+                    <input th:name="sort" th:value="${sort}" type="hidden"/>
+                    <input class="button1" type="submit" value="Forward" th:disabled="${maxPage <= page}">
+                </form>
+                <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
+
+                <a class="button1" th:if="${page != maxPage}" th:href="@{'/admin/allUsers'
                                                      + '?page=' + ${maxPage}
                                                      + '&username=' + ${username}
                                                      + '&email=' + ${email}
                                                      + '&enabled='+ ${(enabled!=null ? enabled : '')}
                                                      + '&role=' + ${role}
                                                      + '&sort=' + ${sort}}" th:text="Last"></a>
-                <span th:unless="${page != maxPage}">Last</span>
+                <span class="button1_non_action" th:unless="${page != maxPage}">Last</span>
+
             </div>
-            <form th:method="GET" th:action="@{/admin/allUsers}">
-                <input th:name="page" th:value="${page} - 1" type="hidden"/>
-                <input th:name="username" th:value="${username}" type="hidden"/>
-                <input th:name="email" th:value="${email}" type="hidden"/>
-                <input th:name="enabled" th:value="${enabled}" type="hidden"/>
-                <input th:name="role" th:value="${role}" type="hidden"/>
-                <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="Back!" th:disabled="${page <= 1}">
-            </form>
-            <br>
-            <form th:method="GET" th:action="@{/admin/allUsers}">
-                <input th:name="page" th:value="${page + 1}" type="hidden"/>
-                <input th:name="username" th:value="${username}" type="hidden"/>
-                <input th:name="email" th:value="${email}" type="hidden"/>
-                <input th:name="enabled" th:value="${enabled}" type="hidden"/>
-                <input th:name="role" th:value="${role}" type="hidden"/>
-                <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="Forward!" th:disabled="${maxPage <= page}">
-            </form>
         </div>
     </div>
 </body>

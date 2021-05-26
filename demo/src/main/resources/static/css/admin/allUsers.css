@@ -25,7 +25,7 @@ table {
     border-radius: 3px; /* Скругляем уголки */
     font: 140% serif;
 }
-.btnDelete,.btnEdit {
+.btnDelete, .btnEdit {
     display: inline-block;
     padding: 0.5rem 0.5rem;
     text-decoration: none;
@@ -45,6 +45,14 @@ table {
     background: darkgreen; /* Серый цвет фона */
 }
 
+#array_buttons_center {
+    width:100%;
+    text-align: center;
+}
+
+#array_buttons_center * {
+    display: inline-block;
+}
 
 input {
     font: 100% serif;

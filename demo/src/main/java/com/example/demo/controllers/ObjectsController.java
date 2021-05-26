@@ -11,10 +11,13 @@ import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -67,7 +70,6 @@ public class ObjectsController {
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                              @RequestParam(name = "genres", required = false) List<String> genres,
                              Model model) {
-
         if(genres != null) {
             List<Genre> AllGenre = genreService.getAll();
             List<Genre> newGenreForUser = new ArrayList<>();
@@ -94,7 +96,18 @@ public class ObjectsController {
             model.addAttribute("book", book);
             return "objects/addBook";
         }
+
+        bookService.create(book);
+
         return "redirect:/objects";
     }
+
+    @GetMapping("/books")
+    public String getAllUsers(Model model) {
+        model.addAttribute("books", bookService.findAll());
+        return "objects/books";
+    }
+
+
     //------------------------------------------------Book
 }
