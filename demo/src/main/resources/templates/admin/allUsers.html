@@ -11,6 +11,8 @@
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
           rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
+          rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
     <div class="header">
@@ -25,7 +27,7 @@
     </div>
     <div>
         <h2>All users:</h2>
-        <form class="formOne">
+        <form class="form_one">
             <div style="font: 140% serif">
                 <label> <b>Filters:</b> </label>
                 <br>
@@ -94,7 +96,7 @@
                 </td>
             </tr>
         </table>
-        <div class="formOne">
+        <div class="form_one">
             current page = <b th:text="${page}"></b>
             <br>
             amount of pages = <b th:text="${maxPage}"></b>

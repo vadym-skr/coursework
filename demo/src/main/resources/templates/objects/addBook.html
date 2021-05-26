@@ -23,7 +23,7 @@
     </div>
     <div class="body">
         <h1>Add book</h1>
-        <form th:method="POST" th:action="@{/objects/addBook}" th:object="${book}" enctype="multipart/form-data">
+        <form th:method="POST" th:action="@{/objects/addBook}" th:object="${book}">
             <label for="name">Name: </label> <br>
             <input type="text" th:field="*{name}" id="name"/>
             <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
@@ -49,9 +49,6 @@
                 <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
                 <label th:text="${genre.getName()}"></label>
             </div>
-            <br>
-            <label>Photo: </label> <br>
-            <input type="file" th:name="image" accept="image/png, image/jpeg" />
             <br>
             <input class="button1" type="submit" value="Create!">
         </form>

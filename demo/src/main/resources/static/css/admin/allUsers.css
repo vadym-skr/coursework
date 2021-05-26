@@ -1,20 +1,6 @@
-body {
-    font: 160% serif;
-}
 table {
     border-style: double;
     padding: 5px;
-}
-.formOne {
-    border-top: 6px solid #3f71f2;
-    border-bottom: 6px solid #3f71f2;
-    border-left: 6px dashed #c2d3ff;
-    border-right: 6px dashed #c2d3ff;
-    border-radius: 40px 40px 40px 40px;
-    text-align: left;
-    margin: 1% 10% 1%;
-    padding: 30px 50px;
-    font: 100% serif;
 }
 .btn {
     display: inline-block; /* Строчно-блочный элемент */
@@ -43,15 +29,6 @@ table {
 }
 .btnEdit {
     background: darkgreen; /* Серый цвет фона */
-}
-
-#array_buttons_center {
-    width:100%;
-    text-align: center;
-}
-
-#array_buttons_center * {
-    display: inline-block;
 }
 
 input {

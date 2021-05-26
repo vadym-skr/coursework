@@ -9,6 +9,7 @@ import com.example.demo.services.GenreService;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -103,8 +104,18 @@ public class ObjectsController {
     }
 
     @GetMapping("/books")
-    public String getAllUsers(Model model) {
-        model.addAttribute("books", bookService.findAll());
+    public String getAllUsers(
+            @RequestParam(name = "page", required = false) Integer page,
+            Model model) {
+        int size = 3;
+
+        if(page == null) { page = 1; }
+
+        Page<Book> books = bookService.getForAllUsers(page - 1, size);
+
+        model.addAttribute("books", books.getContent());
+        model.addAttribute("maxPage", books.getTotalPages());
+        model.addAttribute("page", page);
         return "objects/books";
     }
 

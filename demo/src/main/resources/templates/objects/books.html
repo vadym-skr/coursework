@@ -9,6 +9,8 @@
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
           rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
+          rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
     <div class="header">
@@ -25,7 +27,7 @@
 
     </div>
 
-    <div class="books_list">
+    <div class="form_books">
         <div th:each="book : ${books}">
             <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
             <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
@@ -40,7 +42,24 @@
         </div>
     </div>
 
-    <div class="body">
+    <div class="form_one">
+        current page = <b th:text="${page}"></b>
+        <br>
+        amount of pages = <b th:text="${maxPage}"></b>
+        <br>
+        <div id="array_buttons_center">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/objects/books}">
+                <input th:name="page" th:value="${page} - 1" type="hidden"/>
+                <input class="button1" type="submit" value="Back" th:disabled="${page <= 1}">
+            </form>
+            <span class="button1_non_action" th:unless="${page != 1}">Back</span>
+
+            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/objects/books}">
+                <input th:name="page" th:value="${page + 1}" type="hidden"/>
+                <input class="button1" type="submit" value="Forward" th:disabled="${maxPage <= page}">
+            </form>
+            <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
+        </div>
     </div>
 </body>
 </html>
