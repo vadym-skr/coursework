@@ -71,21 +71,7 @@ public class ObjectsController {
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                              @RequestParam(name = "genres", required = false) List<String> genres,
                              Model model) {
-        if(genres != null) {
-            List<Genre> AllGenre = genreService.getAll();
-            List<Genre> newGenreForUser = new ArrayList<>();
-            for (String genreName : genres) {
-                for (Genre genre : AllGenre) {
-                    if (genre.getName().equals(genreName)) {
-                        newGenreForUser.add(genre);
-                    }
-                }
-            }
-            book.setGenres(new HashSet<>(newGenreForUser));
-        }
-        else {
-            book.setGenres(new HashSet<>());
-        }
+        book.setGenres(toSetOfGenre(genres));
 
         if (bindingResult.hasFieldErrors("name") ||
                 bindingResult.hasFieldErrors("author") ||
@@ -98,7 +84,15 @@ public class ObjectsController {
             return "objects/addBook";
         }
 
-        bookService.create(book);
+        if (bookService.findByName(book.getName()) != null) {
+            model.addAttribute("allGenres", genreService.getAll());
+            model.addAttribute("genres", genres);
+            model.addAttribute("book", book);
+            model.addAttribute("nameErr", "Name of book is already exists!");
+            return "objects/addBook";
+        }
+
+        bookService.save(book);
 
         return "redirect:/objects";
     }
@@ -106,19 +100,90 @@ public class ObjectsController {
     @GetMapping("/books")
     public String getAllUsers(
             @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "country", required = false) String country,
+            @RequestParam(name = "genre", required = false) String genre,
+            @RequestParam(name = "sort", required = false) String sort,
             Model model) {
         int size = 3;
-
+        if(genre != null) {
+            System.out.println("sdasd");
+        }
         if(page == null) { page = 1; }
+        if(sort == null) { sort = ""; }
+        if(name == null || name.isBlank()) { name = ""; }
+        if(author == null || author.isBlank()) { author = ""; }
+        if(country == null || country.isBlank()) { country = ""; }
+        if(genre == null || genre.isBlank()) { genre = ""; }
 
-        Page<Book> books = bookService.getForAllUsers(page - 1, size);
+        Page<Book> books = bookService.getForAllBooks(page - 1, size, sort, name, author, country, genreService.findGenreByName(genre));
 
         model.addAttribute("books", books.getContent());
+        model.addAttribute("allGenres", genreService.getAll());
         model.addAttribute("maxPage", books.getTotalPages());
         model.addAttribute("page", page);
+        model.addAttribute("name", name);
+        model.addAttribute("author", author);
+        model.addAttribute("country", country);
+        model.addAttribute("genre", genre);
+        model.addAttribute("sort", sort);
         return "objects/books";
     }
 
+    @GetMapping("/editBook/{id}")
+    public String editBook(@PathVariable Integer id, Model model) {
+        model.addAttribute("book", bookService.findById(id));
+        model.addAttribute("allGenres", genreService.getAll());
+        return "objects/editBook";
+    }
+
+    @PostMapping("/editBook/{id}")
+    public String updateBook(@ModelAttribute(name = "book") @Valid Book book, BindingResult bindingResult,
+                             @RequestParam(name = "genres", required = false) List<String> genres,
+                             Model model) {
+        Book oldBook = bookService.findById(book.getId());
+        book.setGenres(toSetOfGenre(genres));
+
+        if (bindingResult.hasFieldErrors("name") ||
+                bindingResult.hasFieldErrors("author") ||
+                bindingResult.hasFieldErrors("pages") ||
+                bindingResult.hasFieldErrors("country") ||
+                bindingResult.hasFieldErrors("description")) {
+            model.addAttribute("allGenres", genreService.getAll());
+            model.addAttribute("genres", genres);
+            model.addAttribute("book", book);
+            return "objects/editBook";
+        }
+
+        if (bookService.findByName(book.getName()) != null && !book.getName().equals(oldBook.getName())) {
+            model.addAttribute("allGenres", genreService.getAll());
+            model.addAttribute("genres", genres);
+            model.addAttribute("book", book);
+            model.addAttribute("nameErr", "Name of book is already exists!");
+            return "objects/editBook";
+        }
+
+        bookService.save(book);
+
+        return "redirect:/objects/books";
+    }
+
+    private Set<Genre> toSetOfGenre(List<String> genres) {
+        if(genres != null) {
+            List<Genre> AllGenre = genreService.getAll();
+            List<Genre> newGenreForUser = new ArrayList<>();
+            for (String genreName : genres) {
+                for (Genre genre : AllGenre) {
+                    if (genre.getName().equals(genreName)) {
+                        newGenreForUser.add(genre);
+                    }
+                }
+            }
+            return new HashSet<>(newGenreForUser);
+        }
+        return new HashSet<>();
+    }
 
     //------------------------------------------------Book
 }

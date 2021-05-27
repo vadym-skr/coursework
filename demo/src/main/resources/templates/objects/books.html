@@ -23,9 +23,36 @@
             <a th:href="@{/user/registration}">Registration</a>
         </div>
     </div>
-    <div class="body">
-
-    </div>
+    <form class="form_one">
+        <label> <b>Filters:</b> </label> <br>
+        <label for="name">Name: </label> <br>
+        <input type="text" th:value="${name}" th:name="name" id="name"/> <br>
+        <label for="author">Author: </label> <br>
+        <input type="text" th:value="${author}" th:name="author" id="author"/> <br>
+        <label for="country">Country: </label> <br>
+        <input type="text" th:value="${country}" th:name="country" id="country"/> <br>
+        <label for="genre">Genre: </label> <br>
+        <select th:name="genre" size="1" style="font: 100% serif" id="genre">
+            <option th:value="''" th:selected="${genre.equals('')}">none</option>
+            <option th:each="g : ${allGenres}" th:value="${g.getName()}" th:text="${g.getName()}" th:selected="${genre.equals(g.getName())}">
+            </option>
+        </select>
+        <hr>
+        <label for="sort"> <b>Sort fields:</b> </label> <br>
+        <select th:name="sort" size="1" style="font: 100% serif" id="sort">
+            <option th:value="''" th:selected="${sort.equals('')}">none</option>
+            <option th:value="'name up'" th:selected="${sort.equals('name up')}">name up</option>
+            <option th:value="'name down'" th:selected="${sort.equals('name down')}">name down</option>
+            <option th:value="'author up'" th:selected="${sort.equals('author up')}">author up</option>
+            <option th:value="'author down'" th:selected="${sort.equals('author down')}">author down</option>
+            <option th:value="'country up'" th:selected="${sort.equals('country up')}">country up</option>
+            <option th:value="'country down'" th:selected="${sort.equals('country down')}">country down</option>
+            <option th:value="'pages up'" th:selected="${sort.equals('pages up')}">pages up</option>
+            <option th:value="'pages down'" th:selected="${sort.equals('pages down')}">pages down</option>
+        </select>
+        <hr>
+        <input class="button1" type="submit" value="Search!">
+    </form>
 
     <div class="form_books">
         <div th:each="book : ${books}">
@@ -42,24 +69,64 @@
         </div>
     </div>
 
+    <!-- Форма для переходу по сторінках -->
     <div class="form_one">
         current page = <b th:text="${page}"></b>
         <br>
         amount of pages = <b th:text="${maxPage}"></b>
         <br>
         <div id="array_buttons_center">
+            <!--button->first (action)-->
             <form th:if="${page != 1}" th:method="GET" th:action="@{/objects/books}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
+                <input th:name="name" th:value="${name}" type="hidden"/>
+                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="country" th:value="${country}" type="hidden"/>
+                <input th:name="genre" th:value="${genre}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
+                <input class="button1" type="submit" value="First" th:disabled="${page <= 1}">
+            </form>
+            <!--button->first (no action)-->
+            <span class="button1_non_action" th:unless="${page != 1}">First</span>
+            <!--button->Back (action)-->
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/objects/books}">
+                <input th:name="page" th:value="${page} - 1" type="hidden"/>
+                <input th:name="name" th:value="${name}" type="hidden"/>
+                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="country" th:value="${country}" type="hidden"/>
+                <input th:name="genre" th:value="${genre}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
                 <input class="button1" type="submit" value="Back" th:disabled="${page <= 1}">
             </form>
+            <!--button->Back (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">Back</span>
-
+            <!--button->Forward (action)-->
             <form th:if="${page != maxPage}" th:method="GET" th:action="@{/objects/books}">
                 <input th:name="page" th:value="${page + 1}" type="hidden"/>
+                <input th:name="name" th:value="${name}" type="hidden"/>
+                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="country" th:value="${country}" type="hidden"/>
+                <input th:name="genre" th:value="${genre}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
                 <input class="button1" type="submit" value="Forward" th:disabled="${maxPage <= page}">
             </form>
+            <!--button->Forward (no action)-->
             <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
+            <!--button->Last (action)-->
+            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/objects/books}">
+                <input th:name="page" th:value="${maxPage}" type="hidden"/>
+                <input th:name="name" th:value="${name}" type="hidden"/>
+                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="country" th:value="${country}" type="hidden"/>
+                <input th:name="genre" th:value="${genre}" type="hidden"/>
+                <input th:name="sort" th:value="${sort}" type="hidden"/>
+                <input class="button1" type="submit" value="Last" th:disabled="${maxPage <= page}">
+            </form>
+            <!--button->Last (no action)-->
+            <span class="button1_non_action" th:unless="${page != maxPage}">Last</span>
         </div>
     </div>
+    <!-- Форма для переходу по сторінках -->
+
 </body>
 </html>

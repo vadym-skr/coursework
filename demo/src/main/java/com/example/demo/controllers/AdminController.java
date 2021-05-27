@@ -38,7 +38,7 @@ public class AdminController {
     public String editUser(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("roles", roleService.getAll());
-        User user = userService.getCurrentUser();
+        //User user = userService.getCurrentUser();
         return "admin/editUser";
     }
 
@@ -90,23 +90,14 @@ public class AdminController {
             @RequestParam(name = "email", required = false) String email,
             @RequestParam(name = "enabled", required = false) Boolean enabled,
             @RequestParam(name = "role", required = false) String role,
-            @RequestParam(name = "sort", required = false) String sortField,
+            @RequestParam(name = "sort", required = false) String sort,
             Model model) {
         int size = 4;
         Role roleFromBD;
 
-        if(page == null) {
-            page = 1;
-        }
-
-        if(username == null || username.isBlank()) {
-            username = "";
-        }
-
-        if(email == null || email.isBlank()) {
-            email = "";
-        }
-
+        if(page == null) { page = 1; }
+        if(username == null || username.isBlank()) { username = ""; }
+        if(email == null || email.isBlank()) { email = ""; }
         if(role == null || role.isEmpty()) {
             role = "";
             roleFromBD = roleService.getRoleByName("USER");
@@ -114,12 +105,9 @@ public class AdminController {
         else {
             roleFromBD = roleService.getRoleByName(role);
         }
+        if(sort == null) { sort = ""; }
 
-        if(sortField == null) {
-            sortField = "";
-        }
-
-        Page<User> users = userService.getForAllUsers(page - 1, size, sortField, username, email, enabled, roleFromBD);
+        Page<User> users = userService.getForAllUsers(page - 1, size, sort, username, email, enabled, roleFromBD);
 
         model.addAttribute("users", users.getContent());
         model.addAttribute("maxPage", users.getTotalPages());
@@ -128,7 +116,7 @@ public class AdminController {
         model.addAttribute("email", email);
         model.addAttribute("enabled", enabled);
         model.addAttribute("role", role);
-        model.addAttribute("sort", sortField);
+        model.addAttribute("sort", sort);
 
         return "admin/allUsers";
     }

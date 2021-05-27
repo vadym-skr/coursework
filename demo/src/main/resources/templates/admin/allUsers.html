@@ -28,44 +28,42 @@
     <div>
         <h2>All users:</h2>
         <form class="form_one">
-            <div style="font: 140% serif">
-                <label> <b>Filters:</b> </label>
-                <br>
-                <label for="username">Username: </label>
-                <input type="text" th:value="${username}" th:name="username" id="username"/>
-                <br>
-                <label for="email">Email: </label>
-                <input type="text" th:value="${email}" th:name="email" id="email"/>
-                <br>
-                <label for="enabled">Enabled: </label>
-                <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
-                    <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
-                    <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
-                    <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
-                </select>
-                <br>
-                <label for="role">Role: </label>
-                <select th:name="role" size="1" style="font: 100% serif" id="role">
-                    <option th:value="''" th:selected="${role.equals('')}">all</option>
-                    <option th:value="'USER'" th:selected="${role.equals('USER')}">user</option>
-                    <option th:value="'EDITOR'" th:selected="${role.equals('EDITOR')}">editor</option>
-                    <option th:value="'ADMIN'" th:selected="${role.equals('ADMIN')}">admin</option>
-                </select>
-                <hr>
-                <label for="sort"> <b>Sort fields:</b> </label>
-                <br>
-                <select th:name="sort" size="1" style="font: 100% serif" id="sort">
-                    <option th:value="''" th:selected="${sort.equals('')}">none</option>
-                    <option th:value="'id up'" th:selected="${sort.equals('id up')}">id up</option>
-                    <option th:value="'id down'" th:selected="${sort.equals('id down')}">id down</option>
-                    <option th:value="'username up'" th:selected="${sort.equals('username up')}">email up</option>
-                    <option th:value="'username down'" th:selected="${sort.equals('username down')}">email down</option>
-                    <option th:value="'email up'" th:selected="${sort.equals('email up')}">email up</option>
-                    <option th:value="'email down'" th:selected="${sort.equals('email down')}">email down</option>
-                    <option th:value="'enabled up'" th:selected="${sort.equals('enabled up')}">enabled up</option>
-                    <option th:value="'enabled down'" th:selected="${sort.equals('enabled down')}">enabled down</option>
-                </select>
-            </div>
+            <label> <b>Filters:</b> </label>
+            <br>
+            <label for="username">Username: </label>
+            <input type="text" th:value="${username}" th:name="username" id="username"/>
+            <br>
+            <label for="email">Email: </label>
+            <input type="text" th:value="${email}" th:name="email" id="email"/>
+            <br>
+            <label for="enabled">Enabled: </label>
+            <select th:name="enabled" size="1" style="font: 100% serif" id="enabled">
+                <option th:value="${null}" th:selected="${enabled == null}" style="background-color: gray">both</option>
+                <option th:value="${false}" th:selected="${enabled == false}" style="background-color: lightcoral">false</option>
+                <option th:value="${true}" th:selected="${enabled == true}" style="background-color: lightgreen">true</option>
+            </select>
+            <br>
+            <label for="role">Role: </label>
+            <select th:name="role" size="1" style="font: 100% serif" id="role">
+                <option th:value="''" th:selected="${role.equals('')}">all</option>
+                <option th:value="'USER'" th:selected="${role.equals('USER')}">user</option>
+                <option th:value="'EDITOR'" th:selected="${role.equals('EDITOR')}">editor</option>
+                <option th:value="'ADMIN'" th:selected="${role.equals('ADMIN')}">admin</option>
+            </select>
+            <hr>
+            <label for="sort"> <b>Sort fields:</b> </label>
+            <br>
+            <select th:name="sort" size="1" style="font: 100% serif" id="sort">
+                <option th:value="''" th:selected="${sort.equals('')}">none</option>
+                <option th:value="'id up'" th:selected="${sort.equals('id up')}">id up</option>
+                <option th:value="'id down'" th:selected="${sort.equals('id down')}">id down</option>
+                <option th:value="'username up'" th:selected="${sort.equals('username up')}">email up</option>
+                <option th:value="'username down'" th:selected="${sort.equals('username down')}">email down</option>
+                <option th:value="'email up'" th:selected="${sort.equals('email up')}">email up</option>
+                <option th:value="'email down'" th:selected="${sort.equals('email down')}">email down</option>
+                <option th:value="'enabled up'" th:selected="${sort.equals('enabled up')}">enabled up</option>
+                <option th:value="'enabled down'" th:selected="${sort.equals('enabled down')}">enabled down</option>
+            </select>
             <hr>
             <input class="button1" type="submit" value="Search!">
         </form>
