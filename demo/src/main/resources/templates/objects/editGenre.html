@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit genre</title>
+    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="form_one">
+      <h1>Edit genre</h1>
+      <form th:method="POST" th:action="@{/objects/editGenre/{id}(id=${genre.getId()})}" th:object="${genre}">
+          <label for="name">Name: </label> <br>
+          <input type="text" th:field="*{name}" name="name" id="name"/> <br>
+          <div style="color:red" th:if="${nameErr != null}" th:text="${nameErr}">Name error</div>
+          <br>
+          <div id="array_buttons_center">
+              <input class="button1" type="submit" value="Update!">
+          </div>
+      </form>
+    </div>
+</body>
+</html>

@@ -11,6 +11,7 @@ import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -34,7 +35,43 @@ public class ObjectsController {
         this.genreService = genreService;
     }
 
+    @GetMapping()
+    public String object(){
+        return "objects/objects";
+    }
+
     //------------------------------------------------Genre
+
+    @GetMapping("/genres")
+    public String getAllGenres(
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "sort", required = false) String sort,
+            Model model) {
+        int size = 3;
+
+        if(page == null) { page = 1; }
+        if(sort == null) { sort = ""; }
+        if(name == null || name.isBlank()) { name = ""; }
+
+        Page<Genre> genres = genreService.getForAllGenres(page - 1, size, sort, name);
+
+        model.addAttribute("genres", genres.getContent());
+        model.addAttribute("maxPage", genres.getTotalPages());
+        model.addAttribute("page", page);
+        model.addAttribute("name", name);
+        model.addAttribute("sort", sort);
+        return "objects/genres";
+    }
+
+    @Transactional
+    @PostMapping("/genres")
+    public String deleteGenre(@RequestParam(name = "genreId") Integer id) {
+        genreService.deleteGenreForAllBooks(id);
+        genreService.deleteById(id);
+        return "redirect:/objects/genres";
+    }
+
     @GetMapping("/addGenre")
     public String addGenre(@ModelAttribute("genre") Genre genre) {
         return "objects/addGenre";
@@ -47,7 +84,7 @@ public class ObjectsController {
             model.addAttribute("genre", genre);
             return "objects/addGenre";
         }
-        if(genreService.findGenreByName(genre.getName()) != null) {
+        if(genreService.findByName(genre.getName()) != null) {
             model.addAttribute("genreErr", "Genre is already exists!");
             model.addAttribute("genre", genre);
             return "objects/addGenre";
@@ -55,9 +92,71 @@ public class ObjectsController {
         genreService.save(genre);
         return "redirect:/objects";
     }
+
+    @GetMapping("/editGenre/{id}")
+    public String editGenre(@PathVariable Integer id, Model model) {
+        model.addAttribute("genre", genreService.findById(id));
+        return "objects/editGenre";
+    }
+
+    @PostMapping("/editGenre/{id}")
+    public String updateGenre(@ModelAttribute(name = "genre") @Valid Genre genre,
+                             Model model) {
+        Genre oldGenre = genreService.findById(genre.getId());
+
+        if (genreService.findByName(genre.getName()) != null && !genre.getName().equals(oldGenre.getName())) {
+            model.addAttribute("genre", genre);
+            model.addAttribute("nameErr", "Name of genre is already exists!");
+            return "objects/editGenre";
+        }
+
+        genreService.save(genre);
+
+        return "redirect:/objects/genres";
+    }
+
     //------------------------------------------------Genre
 
     //------------------------------------------------Book
+
+    @GetMapping("/books")
+    public String getAllBooks(
+            @RequestParam(name = "page", required = false) Integer page,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "author", required = false) String author,
+            @RequestParam(name = "country", required = false) String country,
+            @RequestParam(name = "genre", required = false) String genre,
+            @RequestParam(name = "sort", required = false) String sort,
+            Model model) {
+        int size = 4;
+
+        if(page == null) { page = 1; }
+        if(sort == null) { sort = ""; }
+        if(name == null || name.isBlank()) { name = ""; }
+        if(author == null || author.isBlank()) { author = ""; }
+        if(country == null || country.isBlank()) { country = ""; }
+        if(genre == null || genre.isBlank()) { genre = ""; }
+
+        Page<Book> books = bookService.getForAllBooks(page - 1, size, sort, name, author, country, genreService.findByName(genre));
+
+        model.addAttribute("books", books.getContent());
+        model.addAttribute("allGenres", genreService.getAll());
+        model.addAttribute("maxPage", books.getTotalPages());
+        model.addAttribute("page", page);
+        model.addAttribute("name", name);
+        model.addAttribute("author", author);
+        model.addAttribute("country", country);
+        model.addAttribute("genre", genre);
+        model.addAttribute("sort", sort);
+        return "objects/books";
+    }
+
+    @PostMapping("/books")
+    public String deleteBook(@RequestParam(name = "bookId") Integer id) {
+        bookService.deleteById(id);
+        return "redirect:/objects/books";
+    }
+
     @GetMapping("/addBook")
     public String addBook(@ModelAttribute("book") Book book,
                           @RequestParam(name = "genres", required = false) List<String> genres,
@@ -95,40 +194,6 @@ public class ObjectsController {
         bookService.save(book);
 
         return "redirect:/objects";
-    }
-
-    @GetMapping("/books")
-    public String getAllUsers(
-            @RequestParam(name = "page", required = false) Integer page,
-            @RequestParam(name = "name", required = false) String name,
-            @RequestParam(name = "author", required = false) String author,
-            @RequestParam(name = "country", required = false) String country,
-            @RequestParam(name = "genre", required = false) String genre,
-            @RequestParam(name = "sort", required = false) String sort,
-            Model model) {
-        int size = 3;
-        if(genre != null) {
-            System.out.println("sdasd");
-        }
-        if(page == null) { page = 1; }
-        if(sort == null) { sort = ""; }
-        if(name == null || name.isBlank()) { name = ""; }
-        if(author == null || author.isBlank()) { author = ""; }
-        if(country == null || country.isBlank()) { country = ""; }
-        if(genre == null || genre.isBlank()) { genre = ""; }
-
-        Page<Book> books = bookService.getForAllBooks(page - 1, size, sort, name, author, country, genreService.findGenreByName(genre));
-
-        model.addAttribute("books", books.getContent());
-        model.addAttribute("allGenres", genreService.getAll());
-        model.addAttribute("maxPage", books.getTotalPages());
-        model.addAttribute("page", page);
-        model.addAttribute("name", name);
-        model.addAttribute("author", author);
-        model.addAttribute("country", country);
-        model.addAttribute("genre", genre);
-        model.addAttribute("sort", sort);
-        return "objects/books";
     }
 
     @GetMapping("/editBook/{id}")

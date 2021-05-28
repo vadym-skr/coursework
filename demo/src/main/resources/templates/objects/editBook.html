@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit book</title>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
@@ -50,7 +50,7 @@
                 <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
                 <label th:text="${genre.getName()}"></label>
             </div>
-
+            <br>
             <div id="array_buttons_center">
                 <input class="button1" type="submit" value="Update!">
             </div>

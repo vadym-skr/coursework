@@ -1,5 +1,5 @@
-.button1, .button1_non_action {
-    background-color: #4CAF50; /* Green */
+.button1, .button1_non_action, .button1_delete, .button1_edit {
+    background-color: #4CAF50;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -13,15 +13,17 @@
     background-color: gray;
 }
 
+.button1_delete {
+    background-color: red;
+}
+.button1_edit {
+    background-color: orange;
+}
 
-
-.button1:hover {
+.button1:hover, .button1_delete:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-.button1:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-}
 .disabled {
     opacity: 0.6;
     cursor: not-allowed;

@@ -74,5 +74,5 @@ public class BookService {
     public void save(Book book) {
         bookRepository.save(book);
     }
-
+    public void deleteById(Integer id) {bookRepository.deleteById(id);}
 }

@@ -123,7 +123,7 @@ public class AdminController {
 
     @Transactional
     @PostMapping("/allUsers")
-    public String deleteUser(@RequestParam(name = "userId") Integer id, Model model){
+    public String deleteUser(@RequestParam(name = "userId") Integer id){
         roleService.deleteUsersRolesForUser(id);
         userService.deleteUserById(id);
         return "redirect:/admin/allUsers";
