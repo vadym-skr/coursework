@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>World of books: edit user</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
@@ -21,7 +24,7 @@
             <a th:href="@{/user/registration}">Registration</a>
         </div>
     </div>
-    <div class="body">
+    <div class="form_one">
         <h1>Form edit account</h1>
         <form th:method="POST" th:action="@{/admin/editUser/{id}(id=${user.getId()})}" th:object="${user}">
             <label for="username">Username: </label> <br>

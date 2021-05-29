@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Books</title>
+    <title>World of books: books</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
@@ -17,12 +18,12 @@
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}">Home</a>
-            <a th:href="@{/user}">User</a>
-            <a th:href="@{/admin}">Admin</a>
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/user/registration}">Registration</a>
+            <a th:href="@{/editor}">Editor</a>
+            <a th:href="@{/editor/books}" class="active">Books</a>
+            <a th:href="@{/editor/genres}">Genres</a>
         </div>
     </div>
+
     <form class="form_one">
         <h1>Books</h1>
         <label> <b>Filters:</b> </label> <br>
@@ -57,28 +58,34 @@
 
     <div class="form_print">
         <div th:each="book : ${books}">
-            <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
-            <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
-            <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
-            <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
-            <b>Description: </b> <i th:text="${book.getDescription()}"></i> <br>
-            <b>Genres: </b>
-            <div th:each="genre : ${book.getGenres()}">
-                <i th:text="${genre.getName()}"></i>
-            </div><br>
+            <div class="border_one">
+                <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
+                <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
+                <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
+                <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
+                <b>Description: </b> <i th:text="${book.getDescription()}"></i> <br>
+                <b>Genres: </b>
+                <div th:if="${!book.getGenres().isEmpty()}">
+                    <ul class="ul_checked">
+                        <li th:each="genre : ${book.getGenres()}">
+                            <i th:text="${genre.getName()}"></i>
+                        </li>
+                    </ul> <br>
+                </div>
+                <div th:unless="${!book.getGenres().isEmpty()}">
+                    [Don't have any genre]
+                </div>
+                <div class="array_buttons_center">
+                    <form th:method="GET" th:action="@{/editor/editBook/{id}(id=${book.getId()})}">
+                        <input class="button1_edit" type="submit" value="Edit">
+                    </form>
 
-            <div class="array_buttons_center">
-                <form th:method="GET" th:action="@{/objects/editBook/{id}(id=${book.getId()})}">
-                    <input class="button1_edit" type="submit" value="Edit">
-                </form>
-
-                <form th:method="POST" th:action="@{/objects/books}">
-                    <input th:name="bookId" th:value="${book.getId()}" type="hidden"/>
-                    <input class="button1_delete" type="submit" value="Delete">
-                </form>
+                    <form th:method="POST" th:action="@{/editor/books}">
+                        <input th:name="bookId" th:value="${book.getId()}" type="hidden"/>
+                        <input class="button1_delete" type="submit" value="Delete">
+                    </form>
+                </div>
             </div>
-
-            <hr style="border-top: 4px dotted black"/>
         </div>
     </div>
 
@@ -90,7 +97,7 @@
         <br>
         <div class="array_buttons_center">
             <!--button->first (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/objects/books}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/editor/books}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -102,7 +109,7 @@
             <!--button->first (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">First</span>
             <!--button->Back (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/objects/books}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/editor/books}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -114,7 +121,7 @@
             <!--button->Back (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">Back</span>
             <!--button->Forward (action)-->
-            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/objects/books}">
+            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/editor/books}">
                 <input th:name="page" th:value="${page + 1}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -126,7 +133,7 @@
             <!--button->Forward (no action)-->
             <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
             <!--button->Last (action)-->
-            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/objects/books}">
+            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/editor/books}">
                 <input th:name="page" th:value="${maxPage}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>

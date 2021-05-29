@@ -31,7 +31,8 @@ public class GenreService {
     }
 
     public List<Genre> getAll() {
-        return genreRepository.findAll();
+        Sort sort = Sort.by("name").ascending();
+        return genreRepository.findAll(sort);
     }
 
     public Page<Genre> getForAllGenres(int pageNumber, int pageSize, String sortField, String name) {

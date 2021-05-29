@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit genre</title>
+    <title>World of books: edit genre</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
@@ -25,7 +26,7 @@
     </div>
     <div class="form_one">
       <h1>Edit genre</h1>
-      <form th:method="POST" th:action="@{/objects/editGenre/{id}(id=${genre.getId()})}" th:object="${genre}">
+      <form th:method="POST" th:action="@{/editor/editGenre/{id}(id=${genre.getId()})}" th:object="${genre}">
           <label for="name">Name: </label> <br>
           <input type="text" th:field="*{name}" name="name" id="name"/> <br>
           <div style="color:red" th:if="${nameErr != null}" th:text="${nameErr}">Name error</div>

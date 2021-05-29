@@ -2,28 +2,21 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.Genre;
-import com.example.demo.entity.user.Role;
-import com.example.demo.entity.user.User;
 import com.example.demo.services.BookService;
 import com.example.demo.services.GenreService;
-import com.example.demo.services.RoleService;
-import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.*;
 
 @Controller
-@RequestMapping("/objects")
+@RequestMapping("/editor")
 public class ObjectsController {
 
     private BookService bookService;
@@ -37,7 +30,7 @@ public class ObjectsController {
 
     @GetMapping()
     public String object(){
-        return "objects/objects";
+        return "editor/editor";
     }
 
     //------------------------------------------------Genre
@@ -61,7 +54,7 @@ public class ObjectsController {
         model.addAttribute("page", page);
         model.addAttribute("name", name);
         model.addAttribute("sort", sort);
-        return "objects/genres";
+        return "editor/genres";
     }
 
     @Transactional
@@ -69,12 +62,12 @@ public class ObjectsController {
     public String deleteGenre(@RequestParam(name = "genreId") Integer id) {
         genreService.deleteGenreForAllBooks(id);
         genreService.deleteById(id);
-        return "redirect:/objects/genres";
+        return "redirect:/editor/genres";
     }
 
     @GetMapping("/addGenre")
     public String addGenre(@ModelAttribute("genre") Genre genre) {
-        return "objects/addGenre";
+        return "editor/addGenre";
     }
     @PostMapping("/addGenre")
     public String createGenre(@ModelAttribute("genre") Genre genre,
@@ -82,12 +75,12 @@ public class ObjectsController {
         if(genre.getName().isBlank()) {
             model.addAttribute("genreErr", "Genre name is empty!");
             model.addAttribute("genre", genre);
-            return "objects/addGenre";
+            return "editor/addGenre";
         }
         if(genreService.findByName(genre.getName()) != null) {
             model.addAttribute("genreErr", "Genre is already exists!");
             model.addAttribute("genre", genre);
-            return "objects/addGenre";
+            return "editor/addGenre";
         }
         genreService.save(genre);
         return "redirect:/objects";
@@ -96,7 +89,7 @@ public class ObjectsController {
     @GetMapping("/editGenre/{id}")
     public String editGenre(@PathVariable Integer id, Model model) {
         model.addAttribute("genre", genreService.findById(id));
-        return "objects/editGenre";
+        return "editor/editGenre";
     }
 
     @PostMapping("/editGenre/{id}")
@@ -107,12 +100,12 @@ public class ObjectsController {
         if (genreService.findByName(genre.getName()) != null && !genre.getName().equals(oldGenre.getName())) {
             model.addAttribute("genre", genre);
             model.addAttribute("nameErr", "Name of genre is already exists!");
-            return "objects/editGenre";
+            return "editor/editGenre";
         }
 
         genreService.save(genre);
 
-        return "redirect:/objects/genres";
+        return "redirect:/editor/genres";
     }
 
     //------------------------------------------------Genre
@@ -148,13 +141,13 @@ public class ObjectsController {
         model.addAttribute("country", country);
         model.addAttribute("genre", genre);
         model.addAttribute("sort", sort);
-        return "objects/books";
+        return "editor/books";
     }
 
     @PostMapping("/books")
     public String deleteBook(@RequestParam(name = "bookId") Integer id) {
         bookService.deleteById(id);
-        return "redirect:/objects/books";
+        return "redirect:/editor/books";
     }
 
     @GetMapping("/addBook")
@@ -164,7 +157,7 @@ public class ObjectsController {
         model.addAttribute("allGenres", genreService.getAll());
         model.addAttribute("genres", genres);
         model.addAttribute("book", book);
-        return "objects/addBook";
+        return "editor/addBook";
     }
     @PostMapping("/addBook")
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
@@ -180,7 +173,7 @@ public class ObjectsController {
             model.addAttribute("allGenres", genreService.getAll());
             model.addAttribute("genres", genres);
             model.addAttribute("book", book);
-            return "objects/addBook";
+            return "editor/addBook";
         }
 
         if (bookService.findByName(book.getName()) != null) {
@@ -188,7 +181,7 @@ public class ObjectsController {
             model.addAttribute("genres", genres);
             model.addAttribute("book", book);
             model.addAttribute("nameErr", "Name of book is already exists!");
-            return "objects/addBook";
+            return "editor/addBook";
         }
 
         bookService.save(book);
@@ -200,7 +193,7 @@ public class ObjectsController {
     public String editBook(@PathVariable Integer id, Model model) {
         model.addAttribute("book", bookService.findById(id));
         model.addAttribute("allGenres", genreService.getAll());
-        return "objects/editBook";
+        return "editor/editBook";
     }
 
     @PostMapping("/editBook/{id}")
@@ -218,7 +211,7 @@ public class ObjectsController {
             model.addAttribute("allGenres", genreService.getAll());
             model.addAttribute("genres", genres);
             model.addAttribute("book", book);
-            return "objects/editBook";
+            return "editor/editBook";
         }
 
         if (bookService.findByName(book.getName()) != null && !book.getName().equals(oldBook.getName())) {
@@ -226,12 +219,12 @@ public class ObjectsController {
             model.addAttribute("genres", genres);
             model.addAttribute("book", book);
             model.addAttribute("nameErr", "Name of book is already exists!");
-            return "objects/editBook";
+            return "editor/editBook";
         }
 
         bookService.save(book);
 
-        return "redirect:/objects/books";
+        return "redirect:/editor/books";
     }
 
     private Set<Genre> toSetOfGenre(List<String> genres) {

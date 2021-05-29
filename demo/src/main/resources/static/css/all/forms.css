@@ -15,12 +15,13 @@ body {
 }
 
 .form_print {
-    text-align: left;
+    text-align: center;
     margin: 1% 20%;
     padding: 30px 50px;
     font: 150% serif;
 }
 
+/* array_buttons_center */
 .array_buttons_center {
     width:100%;
     text-align: center;
@@ -29,9 +30,22 @@ body {
 .array_buttons_center * {
     display: inline-block;
 }
+/* array_buttons_center */
+
+/* ul_checked */
+.ul_checked li, .ul_unchecked li {
+    list-style: none;
+}
+
+.ul_checked  li::before {
+    content: '🗹 ';
+}
+.ul_unchecked  li::before {
+    content: '☐ ';
+}
+/* ul_checked */
 
 /*Rating*/
-
 .rating-area {
     overflow: hidden;
     width: 265px;
@@ -72,5 +86,29 @@ body {
 .rate-area > label:active {
     position: relative;
 }
-
 /*Rating*/
+
+/*border*/
+.border_one {
+    text-align: left;
+    margin: 10px 1px;
+    padding: 4rem 8rem;
+    display: inline-block;
+    border: 3px solid #333333;
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    background: #ffffff;
+    position: relative;
+}
+.border_one::before {
+     content: '';
+     border: 2px solid #353535;
+     display: block;
+     width: 100%;
+     height: 100%;
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate3d(-50%, -50%, 0) scale(1.015) rotate(0.5deg);
+     border-radius: 1% 1% 2% 4% / 2% 6% 5% 4%;
+ }
+/*border*/

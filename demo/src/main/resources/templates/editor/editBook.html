@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit book</title>
+    <title>World of books: edit book</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
@@ -25,7 +26,7 @@
     </div>
     <div class="form_one">
         <h1>Edit book</h1>
-        <form th:method="POST" th:action="@{/objects/editBook/{id}(id=${book.getId()})}" th:object="${book}">
+        <form th:method="POST" th:action="@{/editor/editBook/{id}(id=${book.getId()})}" th:object="${book}">
             <label for="name">Name: </label> <br>
             <input type="text" th:field="*{name}" name="name" id="name"/> <br>
             <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
@@ -46,11 +47,14 @@
             <label for="description">Description: </label> <br>
             <input type="text" th:field="*{description}" name="description" id="description"/> <br>
 
-            <div th:each="genre : ${allGenres}"> <br>
-                <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
-                <label th:text="${genre.getName()}"></label>
-            </div>
-            <br>
+            Genres: <br>
+            <div class="border_one" >
+                <div th:each="genre : ${allGenres}">
+                    <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
+                    <label th:text="${genre.getName()}"></label>
+                </div>
+            </div> <br>
+
             <div id="array_buttons_center">
                 <input class="button1" type="submit" value="Update!">
             </div>

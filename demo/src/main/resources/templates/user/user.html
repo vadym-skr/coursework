@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>World of books: user</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
@@ -16,12 +19,13 @@
         <div class="header-right">
             <a th:href="@{/}">Home</a>
             <a th:href="@{/user}" class="active">User</a>
+            <a th:href="@{/editor}">Editor</a>
             <a th:href="@{/admin}">Admin</a>
             <a th:href="@{/login}">Login</a>
             <a th:href="@{/user/registration}">Registration</a>
         </div>
     </div>
-    <div class="body">
+    <div class="form_one">
         <h1>My account</h1>
         <div th:if="${user != null}">
             Username - <label style="color:blue" th:text="${user.getUsername()}"></label>
@@ -53,8 +57,7 @@
             <hr>
             <a th:href="@{/user/registration}">
                 <button class="button1">Registration</button>
-            </a>
-            <br>
+            </a> <br><br>
             <a th:href="@{/login}">
                 <button class="button1">Login</button>
             </a>

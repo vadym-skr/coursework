@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All Users</title>
+    <title>World of books: all Users</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/admin/allUsers.css}" href="../../static/css/admin/allUsers.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
@@ -19,15 +20,13 @@
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}">Home</a>
-            <a th:href="@{/user}">User</a>
             <a th:href="@{/admin}">Admin</a>
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/user/registration}">Registration</a>
+            <a th:href="@{/admin/allUsers}" class="active">All users</a>
         </div>
     </div>
     <div>
-        <h2>All users:</h2>
         <form class="form_one">
+            <h1>All users:</h1>
             <label> <b>Filters:</b> </label>
             <br>
             <label for="username">Username: </label>
@@ -99,7 +98,7 @@
             <br>
             amount of pages = <b th:text="${maxPage}"></b>
             <br>
-            <div id="array_buttons_center">
+            <div class="array_buttons_center">
 
                 <a class="button1" th:if="${page != 1}" th:href="@{'/admin/allUsers'
                                                      + '?page=' + ${1}

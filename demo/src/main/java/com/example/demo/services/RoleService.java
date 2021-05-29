@@ -20,7 +20,7 @@ public class RoleService {
         return roleRepository.getRoleByName(name);
     }
     public List<Role> getAll() {
-        return StreamSupport.stream(roleRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return roleRepository.findAll();
     }
 
     public void deleteUsersRolesForUser(Integer id) {

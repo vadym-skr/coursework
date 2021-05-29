@@ -4,6 +4,7 @@ import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,7 +16,7 @@ public interface GenreRepository  extends CrudRepository<Genre, Integer> {
     Genre findGenreById(Integer id);
     Genre findGenreByName(String name);
 
-    List<Genre> findAll();
+    List<Genre> findAll(Sort sort);
 
     @Query(value = "SELECT g FROM Genre as g" +
             " where g.name like :name")

@@ -2,12 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add genre</title>
+    <title>World of books: add genre</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
@@ -15,15 +18,15 @@
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}">Home</a>
-            <a th:href="@{/user}">User</a>
-            <a th:href="@{/admin}">Admin</a>
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/user/registration}">Registration</a>
+            <a th:href="@{/editor}">Editor</a>
+            <a th:href="@{/editor/books}">Books</a>
+            <a th:href="@{/editor/genres}">Genres</a>
         </div>
     </div>
-    <div class="body">
+
+    <div class="form_one">
         <h1>Add Genre</h1>
-        <form th:method="POST" th:action="@{/objects/addGenre}" th:object="${genre}">
+        <form th:method="POST" th:action="@{/editor/addGenre}" th:object="${genre}">
             <label for="name">Genre name: </label> <br>
             <input type="text" th:field="*{name}" id="name"/>
             <div style="color:red" th:if="${genreErr != null}" th:text="${genreErr}">genre error</div>

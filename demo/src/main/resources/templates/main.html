@@ -3,12 +3,15 @@
       xmlns:sec="httpі://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Main page</title>
+    <title>World of books</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/buttons.css}" href="../static/css/all/buttons.css"
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/header.css}" href="../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
@@ -17,13 +20,14 @@
         <div class="header-right">
             <a th:href="@{/}" class="active">Home</a>
             <a th:href="@{/user}">User</a>
+            <a th:href="@{/editor}">Editor</a>
             <a th:href="@{/admin}">Admin</a>
             <a th:href="@{/login}">Login</a>
             <a th:href="@{/user/registration}">Registration</a>
         </div>
     </div>
-    <div class="body">
-        <h1>Main page</h1>
+    <div class="form_one">
+        <h1>World of books</h1>
         <div sec:authorize="isAuthenticated()">
             Welcome <span sec:authentication="name">Username</span>
             <hr>
@@ -39,13 +43,11 @@
             <hr>
             <a th:href="@{/user/registration}">
                 <button class="button1">Registration</button>
-            </a>
-            <br>
+            </a> <br>
             <a th:href="@{/login}">
                 <button class="button1">Login</button>
-            </a>
-            <br>
-            <a th:href="@{/objects}">
+            </a> <br>
+            <a th:href="@{/editor}">
                 <button class="button1">objects</button>
             </a>
         </div>
