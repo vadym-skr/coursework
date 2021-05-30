@@ -48,7 +48,7 @@ body {
 /*Rating*/
 .rating-area {
     overflow: hidden;
-    width: 265px;
+    width: 210px;
     margin: 0 auto;
 }
 .rating-area:not(:checked) > input {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>World of books: edit book</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
+    <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/buttons.css}" href="../static/css/all/buttons.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/header.css}" href="../static/css/all/header.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/forms.css}" href="../static/css/all/forms.css"
+          rel="stylesheet" type="text/css" media="screen"/>
+</head>
+<body>
+    <div class="header">
+        <a class="logo" th:href="@{/}">World of books</a>
+        <div class="header-right">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
+        </div>
+    </div>
+    <div class="form_one">
+        <h1>Book</h1>
+        <form th:method="POST" th:action="@{/books/{id}(id=${book.getId()})}">
+            <div class="rating-area">
+                <input type="radio" id="star-5" th:name="rating" value="5">
+                <label for="star-5" title="rating «5»"></label>
+                <input type="radio" id="star-4" th:name="rating" value="4">
+                <label for="star-4" title="rating «4»"></label>
+                <input type="radio" id="star-3" th:name="rating" value="3">
+                <label for="star-3" title="rating «3»"></label>
+                <input type="radio" id="star-2" th:name="rating" value="2">
+                <label for="star-2" title="rating «2»"></label>
+                <input type="radio" id="star-1" th:name="rating" value="1">
+                <label for="star-1" title="rating «1»"></label>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <div class="array_buttons_center">
+                    <i style="color: red">registration is required to evaluate the book</i>
+                </div>
+            </div>
+
+            <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
+            <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
+            <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
+            <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
+            <b>Description: </b> <i th:text="${book.getDescription()}"></i> <br>
+            <b>Genres: </b>
+            <div th:if="${!book.getGenres().isEmpty()}">
+                <ul class="ul_checked">
+                    <li th:each="genre : ${book.getGenres()}">
+                        <i th:text="${genre.getName()}"></i>
+                    </li>
+                </ul> <br>
+            </div>
+            <div th:unless="${!book.getGenres().isEmpty()}">
+                [Don't have any genre]
+            </div> <br>
+
+            <div class="array_buttons_center">
+                <input class="button1" type="submit" value="Back">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

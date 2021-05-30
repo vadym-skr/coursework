@@ -6,13 +6,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
 @Entity
 @Table(name = "books")
-public class Book {
+public class Book implements Serializable {
     @Id
     @Column(name = "book_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +40,34 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private Set<Genre> genres = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ratingID.book")
+    private List<Rating> ratings = new ArrayList<>();
+
+    public float getAverageScoreFloat() {
+        float averageScore = 0;
+        int size = ratings.size();
+        if(size != 0) {
+            for(Rating rating : ratings) {
+                averageScore += rating.getRating();
+            }
+            averageScore = averageScore/size;
+            return averageScore;
+        }
+        return 0;
+    }
+
+    public float getAverageScoreInt() {
+        float averageScore = 0;
+        int size = ratings.size();
+        if(size != 0) {
+            for(Rating rating : ratings) {
+                averageScore += rating.getRating();
+            }
+            averageScore = averageScore/size;
+            return Math.round(averageScore);
+        }
+        return 0;
+    }
+
 }

@@ -4,6 +4,7 @@ import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.Genre;
 import com.example.demo.services.BookService;
 import com.example.demo.services.GenreService;
+import com.example.demo.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,11 +22,13 @@ public class ObjectsController {
 
     private BookService bookService;
     private GenreService genreService;
+    private RatingService ratingService;
 
     @Autowired
-    public ObjectsController(BookService bookService, GenreService genreService) {
+    public ObjectsController(BookService bookService, GenreService genreService, RatingService ratingService) {
         this.bookService = bookService;
         this.genreService = genreService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping()
@@ -83,7 +86,7 @@ public class ObjectsController {
             return "editor/addGenre";
         }
         genreService.save(genre);
-        return "redirect:/objects";
+        return "redirect:/editor";
     }
 
     @GetMapping("/editGenre/{id}")
@@ -144,8 +147,10 @@ public class ObjectsController {
         return "editor/books";
     }
 
+    @Transactional
     @PostMapping("/books")
     public String deleteBook(@RequestParam(name = "bookId") Integer id) {
+        ratingService.deleteBookRatingForBook(id);
         bookService.deleteById(id);
         return "redirect:/editor/books";
     }
@@ -186,7 +191,7 @@ public class ObjectsController {
 
         bookService.save(book);
 
-        return "redirect:/objects";
+        return "redirect:/editor";
     }
 
     @GetMapping("/editBook/{id}")

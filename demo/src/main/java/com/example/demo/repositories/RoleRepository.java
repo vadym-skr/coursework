@@ -18,6 +18,6 @@ public interface RoleRepository extends CrudRepository<Role, Integer> {
     Role getRoleByName(@Param("name") String name);
 
     @Modifying
-    @Query(value = "DELETE FROM users_roles WHERE user_id = :id" ,nativeQuery = true)
-    void deleteUsersRolesForUser(Integer id);
+    @Query(value = "DELETE FROM users_roles WHERE user_id = :bookId" ,nativeQuery = true)
+    void deleteUsersRolesForUser(Integer bookId);
 }

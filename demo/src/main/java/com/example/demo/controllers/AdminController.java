@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
+import com.example.demo.services.RatingService;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class AdminController {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final RatingService ratingService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService, RatingService ratingService) {
         this.userService = userService;
         this.roleService = roleService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping
@@ -125,6 +128,7 @@ public class AdminController {
     @PostMapping("/allUsers")
     public String deleteUser(@RequestParam(name = "userId") Integer id){
         roleService.deleteUsersRolesForUser(id);
+        ratingService.deleteBookRatingForUser(id);
         userService.deleteUserById(id);
         return "redirect:/admin/allUsers";
     }
