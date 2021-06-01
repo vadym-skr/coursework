@@ -43,7 +43,8 @@
     <div class="form_print">
         <div th:each="genre : ${genres}">
             <div class="border_one">
-                <b>Name: </b> <i th:text="${genre.getName()}"></i> <br><br>
+                <b>Name: </b> <i th:text="${genre.getName()}"></i> <br>
+                <b>Books: </b> <i th:text="${genre.getBooks().size()}"></i><br><br>
                 <div class="array_buttons_center">
                     <form th:method="GET" th:action="@{/editor/editGenre/{id}(id=${genre.getId()})}">
                         <input class="button1_edit" type="submit" value="Edit">
@@ -70,7 +71,7 @@
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="First" th:disabled="${page <= 1}">
+                <input class="button1" type="submit" value="First">
             </form>
             <!--button->first (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">First</span>
@@ -79,28 +80,28 @@
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="Back" th:disabled="${page <= 1}">
+                <input class="button1" type="submit" value="Back">
             </form>
             <!--button->Back (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">Back</span>
             <!--button->Forward (action)-->
-            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/editor/genres}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/editor/genres}">
                 <input th:name="page" th:value="${page + 1}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="Forward" th:disabled="${maxPage <= page}">
+                <input class="button1" type="submit" value="Forward">
             </form>
             <!--button->Forward (no action)-->
-            <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
+            <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Forward</span>
             <!--button->Last (action)-->
-            <form th:if="${page != maxPage}" th:method="GET" th:action="@{/editor/genres}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/editor/genres}">
                 <input th:name="page" th:value="${maxPage}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
-                <input class="button1" type="submit" value="Last" th:disabled="${maxPage <= page}">
+                <input class="button1" type="submit" value="Last">
             </form>
             <!--button->Last (no action)-->
-            <span class="button1_non_action" th:unless="${page != maxPage}">Last</span>
+            <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Last</span>
         </div>
     </div>
     <!-- Форма для переходу по сторінках -->

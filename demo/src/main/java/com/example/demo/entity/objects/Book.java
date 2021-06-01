@@ -1,6 +1,7 @@
 package com.example.demo.entity.objects;
 
 import com.example.demo.entity.user.Role;
+import com.example.demo.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +16,13 @@ import java.util.Set;
 @Getter @Setter
 @Entity
 @Table(name = "books")
-public class Book implements Serializable {
-    @Id
-    @Column(name = "book_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Size(min = 4, max = 40, message = "Size of name is wrong, the name range is from 4 to 40")
-    private String name;
+public class Book extends AbstractBook {
+//    @Id
+//    @Column(name = "book_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+//    @Size(min = 4, max = 40, message = "Size of name is wrong, the name range is from 4 to 40")
+//    private String name;
     @Size(min = 4, max = 40, message = "Size of author is wrong, the name range is from 4 to 40")
     private String author;
     @NotNull(message = "Number is wrong, you can write number from 1 to 999")
@@ -41,8 +42,16 @@ public class Book implements Serializable {
     )
     private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "ratingID.book")
+    @OneToMany(mappedBy = "book")
     private List<Rating> ratings = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "favorite_books_for_users",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> favoriteUsers = new HashSet<>();
 
     public float getAverageScoreFloat() {
         float averageScore = 0;

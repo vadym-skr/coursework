@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>World of books: books</title>
-    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
-    <link th:href="@{/css/all/body.css}" href="../../static/css/all/body.css"
+    <title>World of books: favorite books</title>
+    <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../static/images/favicon.ico"/>
+    <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
-    <link th:href="@{/css/all/buttons.css}" href="../../static/css/all/buttons.css"
+    <link th:href="@{/css/all/buttons.css}" href="../static/css/all/buttons.css"
           rel="stylesheet" type="text/css" media="screen"/>
-    <link th:href="@{/css/all/header.css}" href="../../static/css/all/header.css"
+    <link th:href="@{/css/all/header.css}" href="../static/css/all/header.css"
           rel="stylesheet" type="text/css" media="screen"/>
-    <link th:href="@{/css/all/forms.css}" href="../../static/css/all/forms.css"
+    <link th:href="@{/css/all/forms.css}" href="../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
@@ -18,14 +18,23 @@
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}">Home</a>
+            <a th:href="@{/books}">Books</a>
+            <a th:href="@{/user}">User</a>
             <a th:href="@{/editor}">Editor</a>
-            <a th:href="@{/editor/books}" class="active">Books</a>
-            <a th:href="@{/editor/genres}">Genres</a>
+            <a th:href="@{/admin}">Admin</a>
+            <span sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}">Logout</a>
+                </span>
+            <span sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}">Login</a>
+                    <a th:href="@{/user/registration}">Registration</a>
+                </span>
         </div>
     </div>
 
+
     <form class="form_one">
-        <h1>Books</h1>
+        <h1>My favorite books</h1>
         <label> <b>Filters:</b> </label> <br>
         <label for="name">Name: </label> <br>
         <input type="text" th:value="${name}" th:name="name" id="name"/> <br>
@@ -72,10 +81,7 @@
                     <input type="checkbox" id="star-1" th:name="rating" th:checked="${book.getAverageScoreInt() == 1.0}" value="1">
                     <label for="star-1" title="rating «1»"></label>
                 </div>
-                <div class="array_buttons_center" style="font-size:60%">
-                    <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getRatings().size()}"></i> <br>
-                    <i th:text="'people who liked it: ' + ${book.getFavoriteUsers().size()}"></i> <br>
-                </div>
+                <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getRatings().size()}"></i> <br>
 
                 <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
                 <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
@@ -94,12 +100,11 @@
                     [Don't have any genre]
                 </div>
                 <div class="array_buttons_center">
-                    <form th:method="GET" th:action="@{/editor/editBook/{id}(id=${book.getId()})}">
-                        <input class="button1_edit" type="submit" value="Edit">
+                    <form th:method="GET" th:action="@{/books/{id}(id=${book.getId()})}">
+                        <input class="button1" type="submit" value="Show">
                     </form>
-
-                    <form th:method="POST" th:action="@{/editor/books}">
-                        <input th:name="bookId" th:value="${book.getId()}" type="hidden"/>
+                    <form th:method="POST" th:action="@{/favoriteBooks}">
+                        <input type="hidden" th:name="bookId" th:value="${book.getId()}">
                         <input class="button1_delete" type="submit" value="Delete">
                     </form>
                 </div>
@@ -115,7 +120,7 @@
         <br>
         <div class="array_buttons_center">
             <!--button->first (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/editor/books}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/favoriteBooks}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -127,7 +132,7 @@
             <!--button->first (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">First</span>
             <!--button->Back (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/editor/books}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/favoriteBooks}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -139,7 +144,7 @@
             <!--button->Back (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">Back</span>
             <!--button->Forward (action)-->
-            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/editor/books}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/favoriteBooks}">
                 <input th:name="page" th:value="${page + 1}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>
@@ -151,7 +156,7 @@
             <!--button->Forward (no action)-->
             <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Forward</span>
             <!--button->Last (action)-->
-            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/editor/books}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/favoriteBooks}">
                 <input th:name="page" th:value="${maxPage}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
                 <input th:name="author" th:value="${author}" type="hidden"/>

@@ -20,9 +20,9 @@ import java.util.*;
 @RequestMapping("/editor")
 public class ObjectsController {
 
-    private BookService bookService;
-    private GenreService genreService;
-    private RatingService ratingService;
+    private final BookService bookService;
+    private final GenreService genreService;
+    private final RatingService ratingService;
 
     @Autowired
     public ObjectsController(BookService bookService, GenreService genreService, RatingService ratingService) {
@@ -150,6 +150,7 @@ public class ObjectsController {
     @Transactional
     @PostMapping("/books")
     public String deleteBook(@RequestParam(name = "bookId") Integer id) {
+        bookService.deleteAllFavoriteUserForBook(id);
         ratingService.deleteBookRatingForBook(id);
         bookService.deleteById(id);
         return "redirect:/editor/books";

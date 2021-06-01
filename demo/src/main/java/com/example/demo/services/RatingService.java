@@ -18,7 +18,6 @@ public class RatingService {
 
     public Rating getRatingByUserAndBook(User user, Book book) {
         return ratingRepository.findRatingByUserAndBook(user, book);
-//        return null;
     }
 
     public List<Rating> getAll() {

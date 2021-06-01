@@ -116,29 +116,29 @@
                     <input th:name="enabled" th:value="${enabled}" type="hidden"/>
                     <input th:name="role" th:value="${role}" type="hidden"/>
                     <input th:name="sort" th:value="${sort}" type="hidden"/>
-                    <input class="button1" type="submit" value="Back" th:disabled="${page <= 1}">
+                    <input class="button1" type="submit" value="Back">
                 </form>
                 <span class="button1_non_action" th:unless="${page != 1}">Back</span>
 
-                <form th:if="${page != maxPage}" th:method="GET" th:action="@{/admin/allUsers}">
+                <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/admin/allUsers}">
                     <input th:name="page" th:value="${page + 1}" type="hidden"/>
                     <input th:name="username" th:value="${username}" type="hidden"/>
                     <input th:name="email" th:value="${email}" type="hidden"/>
                     <input th:name="enabled" th:value="${enabled}" type="hidden"/>
                     <input th:name="role" th:value="${role}" type="hidden"/>
                     <input th:name="sort" th:value="${sort}" type="hidden"/>
-                    <input class="button1" type="submit" value="Forward" th:disabled="${maxPage <= page}">
+                    <input class="button1" type="submit" value="Forward">
                 </form>
-                <span class="button1_non_action" th:unless="${page != maxPage}">Forward</span>
+                <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Forward</span>
 
-                <a class="button1" th:if="${page != maxPage}" th:href="@{'/admin/allUsers'
+                <a class="button1" th:if="${page != maxPage && maxPage != 0}" th:href="@{'/admin/allUsers'
                                                      + '?page=' + ${maxPage}
                                                      + '&username=' + ${username}
                                                      + '&email=' + ${email}
                                                      + '&enabled='+ ${(enabled!=null ? enabled : '')}
                                                      + '&role=' + ${role}
                                                      + '&sort=' + ${sort}}" th:text="Last"></a>
-                <span class="button1_non_action" th:unless="${page != maxPage}">Last</span>
+                <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Last</span>
 
             </div>
         </div>

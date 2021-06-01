@@ -126,4 +126,8 @@ public class UserService implements UserDetailsService {
     public void deleteUserById(Integer id) {
         userRepository.deleteUserById(id);
     }
+
+    public void deleteAllFavoriteBookForUser(Integer userId) {
+        userRepository.deleteAllFavoriteBookForUser(userId);
+    }
 }

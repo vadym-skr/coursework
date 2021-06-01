@@ -1,5 +1,8 @@
 package com.example.demo.entity.user;
 
+import com.example.demo.entity.objects.Book;
+import com.example.demo.entity.objects.Genre;
+import com.example.demo.entity.objects.Rating;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,7 +11,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
@@ -39,6 +44,17 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "favorite_books_for_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> favoriteBooks = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Rating> ratings = new ArrayList<>();
+
     public User() {
     }
 
@@ -48,13 +64,14 @@ public class User {
         this.email = email;
     }
 
-    public User(Integer id, String username, String password, String email, boolean enabled, Set<Role> roles) {
+    public User(Integer id, String username, String password, String email, boolean enabled, Set<Role> roles, Set<Book> favoriteBooks) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.enabled = enabled;
         this.roles = roles;
+        this.favoriteBooks = favoriteBooks;
     }
 
     public String encodePassword(String password) {

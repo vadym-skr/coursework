@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface RatingRepository extends CrudRepository<Rating, Integer> {
 
-    @Query("SELECT r FROM Rating as r WHERE r.ratingID.user = :user AND r.ratingID.book = :book")
+    @Query("SELECT r FROM Rating as r WHERE r.user = :user AND r.book = :book")
     Rating findRatingByUserAndBook(User user, Book book);
 
     List<Rating> findAll();

@@ -13,3 +13,5 @@ photo
 https://www.codejava.net/frameworks/spring-boot/spring-boot-file-upload-tutorial
 embedded table (with 2 primary keys)
 https://mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
+many-to-many with additional columns
+https://www.baeldung.com/jpa-many-to-many

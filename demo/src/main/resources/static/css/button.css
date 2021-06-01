@@ -1,8 +1,0 @@
-.btn {
-    display: inline-block; /* Строчно-блочный элемент */
-    background: #8C959D; /* Серый цвет фона */
-    color: #fff; /* Белый цвет текста */
-    padding: 0.5rem 0.5rem; /* Поля вокруг текста */
-    text-decoration: none; /* Убираем подчёркивание */
-    border-radius: 3px; /* Скругляем уголки */
-}

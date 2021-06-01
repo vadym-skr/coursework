@@ -13,45 +13,84 @@
           rel="stylesheet" type="text/css" media="screen"/>
     <link th:href="@{/css/all/forms.css}" href="../static/css/all/forms.css"
           rel="stylesheet" type="text/css" media="screen"/>
+    <link th:href="@{/css/all/text.css}" href="../static/css/all/text.css"
+          rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
     <div class="header">
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}" class="active">Home</a>
+            <a th:href="@{/books}">Books</a>
             <a th:href="@{/user}">User</a>
             <a th:href="@{/editor}">Editor</a>
             <a th:href="@{/admin}">Admin</a>
-            <a th:href="@{/login}">Login</a>
-            <a th:href="@{/user/registration}">Registration</a>
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}">Logout</a>
+            </span>
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/user/registration}">Registration</a>
+            </span>
         </div>
     </div>
     <div class="form_one">
         <h1>World of books</h1>
+        <div class="array_buttons_center">
+            <i class="text_cursor">
+                this site will help you find a book for you for every taste and add it to your list so
+                that you can easily find it later. With all sorts of filters you can speed up the search
+                for a book for you. By rating a book, you can rate it so that others can see its quality,
+                or see how much other users like it.
+            </i> <br>
+
+            <div class="book">
+                <div class="back">7</div>
+                <div class="page6">
+                    <div style="
+                        font-size: 50%;">
+                        this site will help you find a book for you for every taste and add it to your list so that you can easily find it later, and this site will help you find a book for you for every taste and add it to your list so that you can easily find it later
+                    </div>
+                </div>
+                <div class="page5">
+                    <div style="
+                        font-size: 50%;">
+                        this site will help you find a book for you for every taste and add it to your list so that you can easily find it laterthis site will help you find a book for you for every taste and add it to your list so that you can easily find it later
+                    </div>
+                </div>
+                <div class="page4">4</div>
+                <div class="page3">3</div>
+                <div class="page2">2</div>
+                <div class="page1">1</div>
+                <div class="front">
+                    <br>world<br>OF<br>books
+                </div>
+            </div>
+        </div> <br>
+
         <div sec:authorize="isAuthenticated()">
-            Welcome <span sec:authentication="name">Username</span>
-            <hr>
+            here you can look at the important account, and if necessary edit it <br>
             <a th:href="@{/user}">
                 <button class="button1">User</button>
             </a> <br>
+            click it if you need logout from this site <br>
             <a th:href="@{/logout}">
                 <button class="button1">Logout</button>
-            </a>
+            </a> <br>
         </div>
+
+
         <div sec:authorize="!isAuthenticated()">
-            Welcome user!
-            <hr>
+            here you can register a new account <br>
             <a th:href="@{/user/registration}">
                 <button class="button1">Registration</button>
             </a> <br>
+            click it if you need login to this site <br>
             <a th:href="@{/login}">
                 <button class="button1">Login</button>
             </a> <br>
         </div>
-        <a th:href="@{/books}">
-            <button class="button1">books</button>
-        </a>
-        <br>
+
 <!--        <a th:href="@{https://github.com/Fanatic52/coursework}" title="go to the GitHub" target="_blank">-->
 <!--            <img width="50" alt="go to the GitHub" src="../static/images/gitHub.png" th:src="@{images/gitHub.png}"/>-->
 <!--        </a>-->

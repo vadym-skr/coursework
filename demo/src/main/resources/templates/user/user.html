@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>World of books: user</title>
@@ -14,24 +14,29 @@
           rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
-    <div class="header">
-        <a class="logo" th:href="@{/}">World of books</a>
-        <div class="header-right">
-            <a th:href="@{/}">Home</a>
-            <a th:href="@{/user}" class="active">User</a>
-            <a th:href="@{/editor}">Editor</a>
-            <a th:href="@{/admin}">Admin</a>
+<div class="header">
+    <a class="logo" th:href="@{/}">World of books</a>
+    <div class="header-right">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/books}">Books</a>
+        <a th:href="@{/user}" class="active">User</a>
+        <a th:href="@{/editor}">Editor</a>
+        <a th:href="@{/admin}">Admin</a>
+        <span sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}">Logout</a>
+        </span>
+        <span sec:authorize="!isAuthenticated()">
             <a th:href="@{/login}">Login</a>
             <a th:href="@{/user/registration}">Registration</a>
-        </div>
+        </span>
     </div>
+</div>
     <div class="form_one">
         <h1>My account</h1>
+
         <div th:if="${user != null}">
-            Username - <label style="color:blue" th:text="${user.getUsername()}"></label>
-            <br>
-            Email - <label style="color:blue" th:text="${user.getEmail()}"></label>
-            <br>
+            Username - <label style="color:blue" th:text="${user.getUsername()}"></label> <br>
+            Email - <label style="color:blue" th:text="${user.getEmail()}"></label> <br>
             Roles:
             <table border="1">
                 <tr th:each="role : ${roles}">
@@ -40,28 +45,42 @@
                 </tr>
             </table>
             <hr>
+
+            On this page you can see your favorite books <br>
+            <a th:href="@{/favoriteBooks}">
+                <button class="button1">my favorite books</button>
+            </a> <br>
+
+            click it if you need to change your username or email <br>
             <a th:href="@{/user/edit}">
                 <button class="button1">Edit username or email</button>
-            </a>
-            <br>
+            </a> <br>
+
+            click it if you need to change your old password <br>
             <a th:href="@{/user/editPassword}">
                 <button class="button1">Edit password</button>
-            </a>
-            <br>
+            </a> <br>
+
+            click it if you need login to this site <br>
             <a th:href="@{/logout}">
                 <button class="button1">Logout</button>
             </a>
         </div>
+
         <div th:unless="${user != null}">
             you are not registered yet!
             <hr>
+            here you can register a new account <br>
             <a th:href="@{/user/registration}">
                 <button class="button1">Registration</button>
             </a> <br>
+
+            click it if you need login to this site <br>
             <a th:href="@{/login}">
                 <button class="button1">Login</button>
             </a>
         </div>
+
     </div>
 </body>
 </html>

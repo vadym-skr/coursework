@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
+import com.example.demo.services.BookService;
 import com.example.demo.services.RatingService;
 import com.example.demo.services.RoleService;
 import com.example.demo.services.UserService;
@@ -129,6 +130,7 @@ public class AdminController {
     public String deleteUser(@RequestParam(name = "userId") Integer id){
         roleService.deleteUsersRolesForUser(id);
         ratingService.deleteBookRatingForUser(id);
+        userService.deleteAllFavoriteBookForUser(id);
         userService.deleteUserById(id);
         return "redirect:/admin/allUsers";
     }

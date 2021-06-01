@@ -30,8 +30,9 @@
           <label for="name">Name: </label> <br>
           <input type="text" th:field="*{name}" name="name" id="name"/> <br>
           <div style="color:red" th:if="${nameErr != null}" th:text="${nameErr}">Name error</div>
+          Books: <i th:text="${genre.getBooks().size()}"></i><br>
           <br>
-          <div id="array_buttons_center">
+          <div class="array_buttons_center">
               <input class="button1" type="submit" value="Update!">
           </div>
       </form>
