@@ -171,6 +171,13 @@ public class ObjectsController {
                              Model model) {
         book.setGenres(toSetOfGenre(genres));
 
+        if(book.getPages() == null) {
+            model.addAttribute("allGenres", genreService.getAll());
+            model.addAttribute("genres", genres);
+            model.addAttribute("book", book);
+            model.addAttribute("pagesErr", "Pages has wrong format!");
+        }
+
         if (bindingResult.hasFieldErrors("name") ||
                 bindingResult.hasFieldErrors("author") ||
                 bindingResult.hasFieldErrors("pages") ||
@@ -208,6 +215,13 @@ public class ObjectsController {
                              Model model) {
         Book oldBook = bookService.findById(book.getId());
         book.setGenres(toSetOfGenre(genres));
+
+        if(book.getPages() == null) {
+            model.addAttribute("allGenres", genreService.getAll());
+            model.addAttribute("genres", genres);
+            model.addAttribute("book", book);
+            model.addAttribute("pagesErr", "Pages has wrong format!");
+        }
 
         if (bindingResult.hasFieldErrors("name") ||
                 bindingResult.hasFieldErrors("author") ||

@@ -39,7 +39,8 @@
             <br>
             <label for="pages">Pages: </label> <br>
             <input type="text" th:field="*{pages}" id="pages"/>
-            <div style="color:red" th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}">Pages error</div>
+            <div style="color:red" th:if="${#fields.hasErrors('pages') && pagesErr == null}" th:errors="*{pages}">Pages error</div>
+            <div style="color:red" th:if="${pagesErr != null}" th:text="${pagesErr}">Pages error</div>
             <br>
             <label for="country">Country: </label> <br>
             <input type="text" th:field="*{country}" id="country"/>
