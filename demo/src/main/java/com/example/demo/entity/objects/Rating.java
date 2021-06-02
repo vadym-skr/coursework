@@ -33,41 +33,6 @@ public class Rating {
 
     private Integer rating;
 
-////    @EmbeddedId
-//    public RatingID getRatingID() {
-//        return ratingID;
-//    }
-//
-//    public void setRatingID(RatingID primaryKey) {
-//        this.ratingID = primaryKey;
-//    }
-//
-////    @Transient
-//    public User getUser() {
-//        return getRatingID().getUser();
-//    }
-//
-//    public void setUser(User user) {
-//        getRatingID().setUser(user);
-//    }
-//
-////    @Transient
-//    public Book getBook() {
-//        return getRatingID().getBook();
-//    }
-//
-//    public void setBook(Book book) {
-//        getRatingID().setBook(book);
-//    }
-//
-//    public Integer getRating() {
-//        return rating;
-//    }
-//
-//    public void setRating(Integer rating) {
-//        this.rating = rating;
-//    }
-
     public Rating() {
     }
 
@@ -80,13 +45,12 @@ public class Rating {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rating)) return false;
-        Rating rating1 = (Rating) o;
-        return Objects.equals(getRatingID(), rating1.getRatingID()) && Objects.equals(getRating(), rating1.getRating());
+        if (!(o instanceof Rating rating1)) return false;
+        return Objects.equals(getRatingID(), rating1.getRatingID()) && Objects.equals(getUser(), rating1.getUser()) && Objects.equals(getBook(), rating1.getBook()) && Objects.equals(getRating(), rating1.getRating());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRatingID(), getRating());
+        return Objects.hash(getRatingID(), getUser(), getBook(), getRating());
     }
 }

@@ -4,25 +4,18 @@ import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter @Setter
 @Entity
 @Table(name = "books")
 public class Book extends AbstractBook {
-//    @Id
-//    @Column(name = "book_id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-//    @Size(min = 4, max = 40, message = "Size of name is wrong, the name range is from 4 to 40")
-//    private String name;
+
     @NotBlank(message = "cannot be blank!")
     @Pattern(regexp = "^[A-zА-яіІїЇ0-9_@+=*&^%$#!\\[\\]\\-\\s]*$", message = "you can use only this symbols: A-z А-я 0-9 _@+=*&^%$#![]")
     @Pattern(regexp = "^[^\\s].*", message = "cannot begin or end with a character 'space'")
@@ -35,15 +28,6 @@ public class Book extends AbstractBook {
     @Max(value = 999, message = "Number is wrong, you can write number from 1 to 999")
     private Integer pages;
 
-//    @NotBlank(message = "cannot be blank!")
-//    @Pattern(regexp = "^[A-zА-яіІїЇ0-9_@+=*&^%$#!\\[\\]\\-\\s]*$", message = "you can use only this symbols: A-z А-я 0-9 _@+=*&^%$#![]")
-//    @Pattern(regexp = "^[^\\s].*", message = "cannot begin or end with a character 'space'")
-//    @Pattern(regexp = ".*[^\\s]$", message = "cannot begin or end with a character 'space'")
-//    @Size(min = 4, max = 40, message = "Size of country is wrong, the name range is from 4 to 40")
-//    private String country;
-
-//    private String description;
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_genres",
@@ -53,14 +37,9 @@ public class Book extends AbstractBook {
     private Set<Genre> genres = new HashSet<>();
 
     @OneToMany(mappedBy = "book")
-    private List<Rating> ratings = new ArrayList<>();
+    private Set<Rating> ratings = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "favorite_books_for_users",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "favoriteBooks")
     private Set<User> favoriteUsers = new HashSet<>();
 
     public float getAverageScoreFloat() {

@@ -1,9 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entity.user.User;
-import com.example.demo.services.MailSender;
-import com.example.demo.services.RoleService;
-import com.example.demo.services.UserService;
+import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,17 +14,11 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
-
-    private final MailSender mailSender;
-    private final UserService userService;
-    private final RoleService roleService;
+public class UserController extends AllServicesController {
 
     @Autowired
-    public UserController(UserService userService, RoleService roleService, MailSender mailSender) {
-        this.userService = userService;
-        this.roleService = roleService;
-        this.mailSender = mailSender;
+    public UserController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, ratingService, roleService, mailSender);
     }
 
     @GetMapping

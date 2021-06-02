@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
-import com.example.demo.services.BookService;
-import com.example.demo.services.RatingService;
-import com.example.demo.services.RoleService;
-import com.example.demo.services.UserService;
+import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -20,17 +17,11 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
-
-    private final UserService userService;
-    private final RoleService roleService;
-    private final RatingService ratingService;
+public class AdminController extends AllServicesController {
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, RatingService ratingService) {
-        this.userService = userService;
-        this.roleService = roleService;
-        this.ratingService = ratingService;
+    public AdminController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, ratingService, roleService, mailSender);
     }
 
     @GetMapping

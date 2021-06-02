@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.Rating;
 import com.example.demo.entity.user.User;
-import com.example.demo.services.BookService;
-import com.example.demo.services.GenreService;
-import com.example.demo.services.RatingService;
-import com.example.demo.services.UserService;
+import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,19 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @Controller
-public class ObjectsUserController {
-
-    private BookService bookService;
-    private GenreService genreService;
-    private UserService userService;
-    private RatingService ratingService;
+public class ObjectsUserController extends AllServicesController {
 
     @Autowired
-    public ObjectsUserController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService) {
-        this.bookService = bookService;
-        this.genreService = genreService;
-        this.userService = userService;
-        this.ratingService = ratingService;
+    public ObjectsUserController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, ratingService, roleService, mailSender);
     }
 
     @GetMapping("/books")

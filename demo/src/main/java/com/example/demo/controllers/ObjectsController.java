@@ -2,9 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.Genre;
-import com.example.demo.services.BookService;
-import com.example.demo.services.GenreService;
-import com.example.demo.services.RatingService;
+import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,17 +16,11 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/editor")
-public class ObjectsController {
-
-    private final BookService bookService;
-    private final GenreService genreService;
-    private final RatingService ratingService;
+public class ObjectsController extends AllServicesController {
 
     @Autowired
-    public ObjectsController(BookService bookService, GenreService genreService, RatingService ratingService) {
-        this.bookService = bookService;
-        this.genreService = genreService;
-        this.ratingService = ratingService;
+    public ObjectsController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, ratingService, roleService, mailSender);
     }
 
     @GetMapping()
@@ -209,6 +201,7 @@ public class ObjectsController {
         return "editor/editBook";
     }
 
+//    @Transactional
     @PostMapping("/editBook/{id}")
     public String updateBook(@ModelAttribute(name = "book") @Valid Book book, BindingResult bindingResult,
                              @RequestParam(name = "genres", required = false) List<String> genres,
@@ -242,6 +235,8 @@ public class ObjectsController {
             return "editor/editBook";
         }
 
+        book.setRatings(oldBook.getRatings());
+        book.setFavoriteUsers(oldBook.getFavoriteUsers());
         bookService.save(book);
 
         return "redirect:/editor/books";
