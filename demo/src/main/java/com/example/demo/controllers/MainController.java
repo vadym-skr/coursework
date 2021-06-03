@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController extends AllServicesController {
 
     @Autowired
-    public MainController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, ratingService, roleService, mailSender);
+    public MainController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
     }
 
     @GetMapping

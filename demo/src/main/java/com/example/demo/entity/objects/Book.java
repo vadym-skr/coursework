@@ -1,14 +1,11 @@
 package com.example.demo.entity.objects;
 
-import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.io.Serializable;
 import java.util.*;
 
 @Getter @Setter
@@ -16,10 +13,15 @@ import java.util.*;
 @Table(name = "books")
 public class Book extends AbstractBook {
 
+    @Id
+    @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+
     @NotBlank(message = "cannot be blank!")
     @Pattern(regexp = "^[A-zА-яіІїЇ0-9_@+=*&^%$#!\\[\\]\\-\\s]*$", message = "you can use only this symbols: A-z А-я 0-9 _@+=*&^%$#![]")
-    @Pattern(regexp = "^[^\\s].*", message = "cannot begin or end with a character 'space'")
-    @Pattern(regexp = ".*[^\\s]$", message = "cannot begin or end with a character 'space'")
+    @Pattern(regexp = "^[^\\s].*|", message = "cannot begin or end with a character 'space'")
+    @Pattern(regexp = ".*[^\\s]$|", message = "cannot begin or end with a character 'space'")
     @Size(min = 4, max = 40, message = "Size of author is wrong, the name range is from 4 to 40")
     private String author;
 
@@ -37,17 +39,17 @@ public class Book extends AbstractBook {
     private Set<Genre> genres = new HashSet<>();
 
     @OneToMany(mappedBy = "book")
-    private Set<Rating> ratings = new HashSet<>();
+    private Set<BookRating> bookRatings = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "favoriteBooks")
     private Set<User> favoriteUsers = new HashSet<>();
 
     public float getAverageScoreFloat() {
         float averageScore = 0;
-        int size = ratings.size();
+        int size = bookRatings.size();
         if(size != 0) {
-            for(Rating rating : ratings) {
-                averageScore += rating.getRating();
+            for(BookRating bookRating : bookRatings) {
+                averageScore += bookRating.getRating();
             }
             averageScore = averageScore/size;
             return averageScore;
@@ -57,10 +59,10 @@ public class Book extends AbstractBook {
 
     public float getAverageScoreInt() {
         float averageScore = 0;
-        int size = ratings.size();
+        int size = bookRatings.size();
         if(size != 0) {
-            for(Rating rating : ratings) {
-                averageScore += rating.getRating();
+            for(BookRating bookRating : bookRatings) {
+                averageScore += bookRating.getRating();
             }
             averageScore = averageScore/size;
             return Math.round(averageScore);

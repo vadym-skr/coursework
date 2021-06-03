@@ -20,8 +20,8 @@ import java.util.*;
 public class AdminController extends AllServicesController {
 
     @Autowired
-    public AdminController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, ratingService, roleService, mailSender);
+    public AdminController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
     }
 
     @GetMapping
@@ -33,7 +33,6 @@ public class AdminController extends AllServicesController {
     public String editUser(@PathVariable Integer id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("roles", roleService.getAll());
-        //User user = userService.getCurrentUser();
         return "admin/editUser";
     }
 
@@ -120,7 +119,7 @@ public class AdminController extends AllServicesController {
     @PostMapping("/allUsers")
     public String deleteUser(@RequestParam(name = "userId") Integer id){
         roleService.deleteUsersRolesForUser(id);
-        ratingService.deleteBookRatingForUser(id);
+        bookRatingService.deleteBookRatingForUser(id);
         userService.deleteAllFavoriteBookForUser(id);
         userService.deleteUserById(id);
         return "redirect:/admin/allUsers";

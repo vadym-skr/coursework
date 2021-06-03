@@ -46,7 +46,9 @@
             <div style="color:red" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Country error</div>
 
             <label for="description">Description: </label> <br>
-            <input type="text" th:field="*{description}" name="description" id="description"/> <br>
+            <textarea th:field="*{description}" name="description" id="description" rows="6" cols="60"></textarea> <br>
+
+            <!-- <input type="text" th:field="*{description}" name="description" id="description"/> <br> -->
 
             Genres: <br>
             <div class="border_one" >

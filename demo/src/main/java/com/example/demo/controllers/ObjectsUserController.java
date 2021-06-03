@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entity.objects.Book;
-import com.example.demo.entity.objects.Rating;
+import com.example.demo.entity.objects.BookRating;
 import com.example.demo.entity.user.User;
 import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import java.util.Set;
 public class ObjectsUserController extends AllServicesController {
 
     @Autowired
-    public ObjectsUserController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, ratingService, roleService, mailSender);
+    public ObjectsUserController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
     }
 
     @GetMapping("/books")
@@ -76,17 +76,17 @@ public class ObjectsUserController extends AllServicesController {
         if(currentUser != null) {
             Book currentBook =  bookService.findById(bookId);
             // змінюєм рейтинг якщо він відрізняється від попереднього, або якщо не існує ствоюєм новий
-            Rating oldRating = ratingService.getRatingByUserAndBook(currentUser, currentBook);
+            BookRating oldBookRating = bookRatingService.getBookRatingByUserAndBook(currentUser, currentBook);
             // якщо такий рейтинг вже істує то пробуєм змінити, інакше створюєм новий
-            if(oldRating != null) {
+            if(oldBookRating != null) {
                 // якщо рейтинг не дорівнює попередньому, то змінюєм оцінку, інакше залишаєм
-                if(!oldRating.getRating().equals(rating)) {
-                    oldRating.setRating(rating);
-                    ratingService.save(oldRating);
+                if(!oldBookRating.getRating().equals(rating)) {
+                    oldBookRating.setRating(rating);
+                    bookRatingService.save(oldBookRating);
                 }
             }
             else {
-                ratingService.save(new Rating(currentUser, currentBook, rating));
+                bookRatingService.save(new BookRating(currentUser, currentBook, rating));
             }
 
             // получаєм старий масив книг

@@ -6,13 +6,14 @@ import com.example.demo.entity.user.Role;
 import com.example.demo.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface BookRepository  extends CrudRepository<Book, Integer> {
+public interface BookRepository  extends JpaRepository<Book, Integer> {
 
     Book findBookById(Integer id);
     Book findBookByName(String name);

@@ -19,8 +19,8 @@ import java.util.*;
 public class ObjectsController extends AllServicesController {
 
     @Autowired
-    public ObjectsController(BookService bookService, GenreService genreService, UserService userService, RatingService ratingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, ratingService, roleService, mailSender);
+    public ObjectsController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
     }
 
     @GetMapping()
@@ -143,7 +143,7 @@ public class ObjectsController extends AllServicesController {
     @PostMapping("/books")
     public String deleteBook(@RequestParam(name = "bookId") Integer id) {
         bookService.deleteAllFavoriteUserForBook(id);
-        ratingService.deleteBookRatingForBook(id);
+        bookRatingService.deleteBookRatingForBook(id);
         bookService.deleteById(id);
         return "redirect:/editor/books";
     }
@@ -235,7 +235,7 @@ public class ObjectsController extends AllServicesController {
             return "editor/editBook";
         }
 
-        book.setRatings(oldBook.getRatings());
+        book.setBookRatings(oldBook.getBookRatings());
         book.setFavoriteUsers(oldBook.getFavoriteUsers());
         bookService.save(book);
 

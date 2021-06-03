@@ -70,18 +70,18 @@
 
                 <div class="rating-area">
                     <input type="checkbox" id="star-5" th:name="rating" th:checked="${book.getAverageScoreInt() == 5.0}" value="5">
-                    <label for="star-5" title="rating «5»"></label>
+                    <label for="star-5" title="bookRating «5»"></label>
                     <input type="checkbox" id="star-4" th:name="rating" th:checked="${book.getAverageScoreInt() == 4.0}" value="4">
-                    <label for="star-4" title="rating «4»"></label>
+                    <label for="star-4" title="bookRating «4»"></label>
                     <input type="checkbox" id="star-3" th:name="rating" th:checked="${book.getAverageScoreInt() == 3.0}" value="3">
-                    <label for="star-3" title="rating «3»"></label>
+                    <label for="star-3" title="bookRating «3»"></label>
                     <input type="checkbox" id="star-2" th:name="rating" th:checked="${book.getAverageScoreInt() == 2.0}" value="2">
-                    <label for="star-2" title="rating «2»"></label>
+                    <label for="star-2" title="bookRating «2»"></label>
                     <input type="checkbox" id="star-1" th:name="rating" th:checked="${book.getAverageScoreInt() == 1.0}" value="1">
-                    <label for="star-1" title="rating «1»"></label>
+                    <label for="star-1" title="bookRating «1»"></label>
                 </div>
                 <div class="array_buttons_center" style="font-size:60%">
-                    <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getRatings().size()}"></i> <br>
+                    <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getBookRatings().size()}"></i> <br>
                     <i th:text="'people who liked it: ' + ${book.getFavoriteUsers().size()}"></i> <br>
                 </div>
 
@@ -89,7 +89,8 @@
                 <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
                 <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
                 <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
-                <b>Description: </b> <i th:text="${book.getDescription()}"></i> <br>
+                <b>Description: </b> <br>
+                <textarea readonly th:text="${book.getDescription()}" name="description" id="description" rows="6" cols="60"></textarea> <br>
                 <b>Genres: </b>
                 <div th:if="${!book.getGenres().isEmpty()}">
                     <ul class="ul_checked">

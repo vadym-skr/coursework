@@ -1,8 +1,8 @@
 package com.example.demo.entity.user;
 
 import com.example.demo.entity.objects.Book;
-import com.example.demo.entity.objects.Genre;
-import com.example.demo.entity.objects.Rating;
+import com.example.demo.entity.objects.BookRating;
+import com.example.demo.entity.objects.JournalRating;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,7 +50,18 @@ public class User {
     private Set<Book> favoriteBooks = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Rating> ratings = new ArrayList<>();
+    private List<BookRating> bookRatings = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "favorite_journals_for_users",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "journal_id")
+    )
+    private Set<Book> favoriteJournal = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<JournalRating> journalRating = new ArrayList<>();
 
     public User() {
     }

@@ -212,3 +212,12 @@ body {
     transform: rotateY(-20deg) scale(1.1);
 }
 /*book*/
+
+textarea {
+    font-size: 100%;
+    resize: horizontal;
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    position: relative;
+}

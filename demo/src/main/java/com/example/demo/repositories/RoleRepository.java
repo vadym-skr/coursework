@@ -1,6 +1,7 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entity.user.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 // CrudRepository - Інтерфейс для спільних операцій CRUD з репозиторієм певного типу.
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     List<Role> findAll();
 
