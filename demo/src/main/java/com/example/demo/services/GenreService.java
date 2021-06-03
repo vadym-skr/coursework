@@ -58,7 +58,8 @@ public class GenreService {
 
     public void deleteById(Integer id) { genreRepository.deleteById(id); }
 
-    public void deleteGenreForAllBooks(Integer id) {
+    public void deleteGenreForAllBooksAndJournals(Integer id) {
         genreRepository.deleteGenreForAllBooks(id);
+        genreRepository.deleteGenreForAllJournals(id);
     }
 }

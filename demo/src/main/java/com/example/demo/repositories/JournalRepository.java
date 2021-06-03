@@ -50,10 +50,10 @@ public interface JournalRepository extends JpaRepository<Journal, Integer> {
 
     @Modifying
     @Query(value = "DELETE FROM favorite_journals_for_users WHERE journal_id = :journalId AND user_id = :userId", nativeQuery = true)
-    void deleteFavoriteBookForUser(Integer journalId, Integer userId);
+    void deleteFavoriteJournalForUser(Integer journalId, Integer userId);
 
     @Modifying
     @Query(value = "DELETE FROM favorite_journals_for_users WHERE journal_id = :journalId", nativeQuery = true)
-    void deleteAllFavoriteBookForUser(Integer journalId);
+    void deleteAllFavoriteJournalForUser(Integer journalId);
 
 }

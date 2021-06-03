@@ -20,8 +20,8 @@ import java.util.*;
 public class AdminController extends AllServicesController {
 
     @Autowired
-    public AdminController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
+    public AdminController(BookService bookService, JournalService journalService ,GenreService genreService, UserService userService, BookRatingService bookRatingService, JournalRatingService journalRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, journalService, genreService, userService, bookRatingService, journalRatingService, roleService, mailSender);
     }
 
     @GetMapping

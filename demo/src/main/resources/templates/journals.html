@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>World of books: favorite books</title>
+    <title>World of books: journals</title>
     <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
@@ -19,7 +19,7 @@
         <div class="header-right">
             <a th:href="@{/}">Home</a>
             <a th:href="@{/books}">Books</a>
-            <a th:href="@{/journals}">Journals</a>
+            <a th:href="@{/journals}" class="active">Journals</a>
             <a th:href="@{/user}">User</a>
             <a th:href="@{/editor}">Editor</a>
             <a th:href="@{/admin}">Admin</a>
@@ -29,18 +29,17 @@
             <span sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}">Login</a>
                     <a th:href="@{/user/registration}">Registration</a>
-                </span>
+            </span>
         </div>
     </div>
 
-
     <form class="form_one">
-        <h1>My favorite books</h1>
+        <h1>Journals</h1>
         <label> <b>Filters:</b> </label> <br>
         <label for="name">Name: </label> <br>
         <input type="text" th:value="${name}" th:name="name" id="name"/> <br>
-        <label for="author">Author: </label> <br>
-        <input type="text" th:value="${author}" th:name="author" id="author"/> <br>
+        <label for="publisher">Publisher: </label> <br>
+        <input type="text" th:value="${publisher}" th:name="publisher" id="publisher"/> <br>
         <label for="country">Country: </label> <br>
         <input type="text" th:value="${country}" th:name="country" id="country"/> <br>
         <label for="genre">Genre: </label> <br>
@@ -55,59 +54,58 @@
             <option th:value="''" th:selected="${sort.equals('')}">none</option>
             <option th:value="'name up'" th:selected="${sort.equals('name up')}">name up</option>
             <option th:value="'name down'" th:selected="${sort.equals('name down')}">name down</option>
-            <option th:value="'author up'" th:selected="${sort.equals('author up')}">author up</option>
-            <option th:value="'author down'" th:selected="${sort.equals('author down')}">author down</option>
+            <option th:value="'publisher up'" th:selected="${sort.equals('publisher up')}">publisher up</option>
+            <option th:value="'publisher down'" th:selected="${sort.equals('publisher down')}">publisher down</option>
             <option th:value="'country up'" th:selected="${sort.equals('country up')}">country up</option>
             <option th:value="'country down'" th:selected="${sort.equals('country down')}">country down</option>
-            <option th:value="'pages up'" th:selected="${sort.equals('pages up')}">pages up</option>
-            <option th:value="'pages down'" th:selected="${sort.equals('pages down')}">pages down</option>
+            <option th:value="'publishing term up'" th:selected="${sort.equals('publishing term up')}">publishing term up</option>
+            <option th:value="'publishing term down'" th:selected="${sort.equals('publishing term down')}">publishing term down</option>
         </select>
         <hr>
         <input class="button1" type="submit" value="Search!">
     </form>
 
     <div class="form_print">
-        <div th:each="book : ${books}">
+        <div th:each="journal : ${journals}">
             <div class="border_one">
 
                 <div class="rating-area">
-                    <input type="checkbox" id="star-5" th:name="rating" th:checked="${book.getAverageScoreInt() == 5.0}" value="5">
+                    <input type="checkbox" id="star-5" th:name="rating" th:checked="${journal.getAverageScoreInt() == 5.0}" value="5">
                     <label for="star-5" title="bookRating «5»"></label>
-                    <input type="checkbox" id="star-4" th:name="rating" th:checked="${book.getAverageScoreInt() == 4.0}" value="4">
+                    <input type="checkbox" id="star-4" th:name="rating" th:checked="${journal.getAverageScoreInt() == 4.0}" value="4">
                     <label for="star-4" title="bookRating «4»"></label>
-                    <input type="checkbox" id="star-3" th:name="rating" th:checked="${book.getAverageScoreInt() == 3.0}" value="3">
+                    <input type="checkbox" id="star-3" th:name="rating" th:checked="${journal.getAverageScoreInt() == 3.0}" value="3">
                     <label for="star-3" title="bookRating «3»"></label>
-                    <input type="checkbox" id="star-2" th:name="rating" th:checked="${book.getAverageScoreInt() == 2.0}" value="2">
+                    <input type="checkbox" id="star-2" th:name="rating" th:checked="${journal.getAverageScoreInt() == 2.0}" value="2">
                     <label for="star-2" title="bookRating «2»"></label>
-                    <input type="checkbox" id="star-1" th:name="rating" th:checked="${book.getAverageScoreInt() == 1.0}" value="1">
+                    <input type="checkbox" id="star-1" th:name="rating" th:checked="${journal.getAverageScoreInt() == 1.0}" value="1">
                     <label for="star-1" title="bookRating «1»"></label>
                 </div>
-                <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getBookRatings().size()}"></i> <br>
+                <div class="array_buttons_center" style="font-size:60%">
+                    <i th:text="${journal.getAverageScoreFloat() + ' / ' + journal.getJournalRatings().size()}"></i> <br>
+                    <i th:text="'people who liked it: ' + ${journal.getFavoriteUsers().size()}"></i> <br>
+                </div>
 
-                <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
-                <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
-                <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
-                <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
+                <b>Name: </b> <i th:text="${journal.getName()}"></i> <br>
+                <b>Publisher: </b> <i th:text="${journal.getPublisher()}"></i> <br>
+                <b>Publishing term: </b> <i th:text="${journal.getPublishingTerm()}"></i> <br>
+                <b>Country: </b> <i th:text="${journal.getCountry()}"></i> <br>
                 <b>Description: </b> <br>
-                <textarea readonly th:text="${book.getDescription()}" name="description" id="description" rows="6" cols="60"></textarea> <br>
+                <textarea readonly th:text="${journal.getDescription()}" name="description" id="description" rows="6" cols="60"></textarea> <br>
                 <b>Genres: </b>
-                <div th:if="${!book.getGenres().isEmpty()}">
+                <div th:if="${!journal.getGenres().isEmpty()}">
                     <ul class="ul_checked">
-                        <li th:each="genre : ${book.getGenres()}">
+                        <li th:each="genre : ${journal.getGenres()}">
                             <i th:text="${genre.getName()}"></i>
                         </li>
                     </ul> <br>
                 </div>
-                <div th:unless="${!book.getGenres().isEmpty()}">
+                <div th:unless="${!journal.getGenres().isEmpty()}">
                     [Don't have any genre]
                 </div>
                 <div class="array_buttons_center">
-                    <form th:method="GET" th:action="@{/books/{id}(id=${book.getId()})}">
+                    <form th:method="GET" th:action="@{/journals/{id}(id=${journal.getId()})}">
                         <input class="button1" type="submit" value="Show">
-                    </form>
-                    <form th:method="POST" th:action="@{/favoriteBooks}">
-                        <input type="hidden" th:name="bookId" th:value="${book.getId()}">
-                        <input class="button1_delete" type="submit" value="Delete">
                     </form>
                 </div>
             </div>
@@ -122,10 +120,10 @@
         <br>
         <div class="array_buttons_center">
             <!--button->first (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/favoriteBooks}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/journals}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
-                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="publisher" th:value="${publisher}" type="hidden"/>
                 <input th:name="country" th:value="${country}" type="hidden"/>
                 <input th:name="genre" th:value="${genre}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
@@ -134,10 +132,10 @@
             <!--button->first (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">First</span>
             <!--button->Back (action)-->
-            <form th:if="${page != 1}" th:method="GET" th:action="@{/favoriteBooks}">
+            <form th:if="${page != 1}" th:method="GET" th:action="@{/journals}">
                 <input th:name="page" th:value="${page} - 1" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
-                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="publisher" th:value="${publisher}" type="hidden"/>
                 <input th:name="country" th:value="${country}" type="hidden"/>
                 <input th:name="genre" th:value="${genre}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
@@ -146,10 +144,10 @@
             <!--button->Back (no action)-->
             <span class="button1_non_action" th:unless="${page != 1}">Back</span>
             <!--button->Forward (action)-->
-            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/favoriteBooks}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/journals}">
                 <input th:name="page" th:value="${page + 1}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
-                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="publisher" th:value="${publisher}" type="hidden"/>
                 <input th:name="country" th:value="${country}" type="hidden"/>
                 <input th:name="genre" th:value="${genre}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>
@@ -158,10 +156,10 @@
             <!--button->Forward (no action)-->
             <span class="button1_non_action" th:unless="${page != maxPage && maxPage != 0}">Forward</span>
             <!--button->Last (action)-->
-            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/favoriteBooks}">
+            <form th:if="${page != maxPage && maxPage != 0}" th:method="GET" th:action="@{/journals}">
                 <input th:name="page" th:value="${maxPage}" type="hidden"/>
                 <input th:name="name" th:value="${name}" type="hidden"/>
-                <input th:name="author" th:value="${author}" type="hidden"/>
+                <input th:name="publisher" th:value="${publisher}" type="hidden"/>
                 <input th:name="country" th:value="${country}" type="hidden"/>
                 <input th:name="genre" th:value="${genre}" type="hidden"/>
                 <input th:name="sort" th:value="${sort}" type="hidden"/>

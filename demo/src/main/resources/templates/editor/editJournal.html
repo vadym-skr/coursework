@@ -18,28 +18,28 @@
         <a class="logo" th:href="@{/}">World of books</a>
         <div class="header-right">
             <a th:href="@{/}">Home</a>
-            <a th:href="@{/editor}">Editor</a>
-            <a th:href="@{/editor/books}">Books</a>
-            <a th:href="@{/editor/journals}">Journals</a>
-            <a th:href="@{/editor/genres}">Genres</a>
+            <a th:href="@{/user}">User</a>
+            <a th:href="@{/admin}">Admin</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/user/registration}">Registration</a>
         </div>
     </div>
     <div class="form_one">
-        <h1>Edit book</h1>
-        <form th:method="POST" th:action="@{/editor/editBook/{id}(id=${book.getId()})}" th:object="${book}">
+        <h1>Edit journal</h1>
+        <form th:method="POST" th:action="@{/editor/editJournal/{id}(id=${journal.getId()})}" th:object="${journal}">
             <label for="name">Name: </label> <br>
             <input type="text" th:field="*{name}" name="name" id="name"/> <br>
             <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
             <div style="color:red" th:if="${nameErr != null}" th:text="${nameErr}">Name error</div>
 
-            <label for="author">Author: </label> <br>
-            <input type="text" th:field="*{author}" name="author" id="author"/> <br>
-            <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
+            <label for="publisher">Publisher: </label> <br>
+            <input type="text" th:field="*{publisher}" name="publisher" id="publisher"/> <br>
+            <div style="color:red" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">Publisher error</div>
 
-            <label for="pages">Pages: </label> <br>
-            <input type="text" th:field="*{pages}" name="pages" id="pages"/> <br>
-            <div style="color:red" th:if="${#fields.hasErrors('pages') && pagesErr == null}" th:errors="*{pages}">Pages error</div>
-            <div style="color:red" th:if="${pagesErr != null}" th:text="${pagesErr}">Pages error</div>
+            <label for="publishingTerm">Publishing term: </label> <br>
+            <input type="text" th:field="*{publishingTerm}" name="publishingTerm" id="publishingTerm"/> <br>
+            <div style="color:red" th:if="${#fields.hasErrors('publishingTerm') && publishingTermErr == null}" th:errors="*{publishingTerm}">Publishing term error</div>
+            <div style="color:red" th:if="${publishingTermErr != null}" th:text="${publishingTermErr}">Publishing term error</div>
 
             <label for="country">Country: </label> <br>
             <input type="text" th:field="*{country}" name="country" id="country"/> <br>
@@ -48,12 +48,10 @@
             <label for="description">Description: </label> <br>
             <textarea th:field="*{description}" name="description" id="description" rows="6" cols="60"></textarea> <br>
 
-            <!-- <input type="text" th:field="*{description}" name="description" id="description"/> <br> -->
-
             Genres: <br>
             <div class="border_one" >
                 <div th:each="genre : ${allGenres}">
-                    <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
+                    <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${journal.getGenres().contains(genre)}"/>
                     <label th:text="${genre.getName()}"></label>
                 </div>
             </div> <br>

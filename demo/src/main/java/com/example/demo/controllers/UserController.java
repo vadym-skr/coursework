@@ -17,8 +17,8 @@ import java.util.UUID;
 public class UserController extends AllServicesController {
 
     @Autowired
-    public UserController(BookService bookService, GenreService genreService, UserService userService, BookRatingService bookRatingService, RoleService roleService, MailSender mailSender) {
-        super(bookService, genreService, userService, bookRatingService, roleService, mailSender);
+    public UserController(BookService bookService, JournalService journalService ,GenreService genreService, UserService userService, BookRatingService bookRatingService, JournalRatingService journalRatingService, RoleService roleService, MailSender mailSender) {
+        super(bookService, journalService, genreService, userService, bookRatingService, journalRatingService, roleService, mailSender);
     }
 
     @GetMapping

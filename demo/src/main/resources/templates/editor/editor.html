@@ -20,27 +20,43 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/editor}" class="active">Editor</a>
             <a th:href="@{/editor/books}">Books</a>
+            <a th:href="@{/editor/journals}">Journals</a>
             <a th:href="@{/editor/genres}">Genres</a>
         </div>
     </div>
     <div class="form_one">
         <h1>Editor</h1>
+
         <i>a list of all books, with the ability to <b>view</b>, <b>delete</b> or <b>edit</b> each book</i><br>
         <a th:href="@{/editor/books}">
           <button class="button1">All books</button>
         </a> <br>
+
+        <i>a list of all journals, with the ability to <b>view</b>, <b>delete</b> or <b>edit</b> each journal</i><br>
+        <a th:href="@{/editor/journals}">
+            <button class="button1">All journals</button>
+        </a> <br>
+
         <i>a list of all books' genres, with the ability to <b>delete</b> or <b>edit</b> each genre</i><br>
         <a th:href="@{/editor/genres}">
             <button class="button1">All genres</button>
         </a> <br>
+
         <i>here you can <b>add</b> a book</i> <br>
         <a th:href="@{/editor/addBook}">
             <button class="button1">Add book</button>
         </a> <br>
+
+        <i>here you can <b>add</b> a journal</i> <br>
+        <a th:href="@{/editor/addJournal}">
+            <button class="button1">Add journal</button>
+        </a> <br>
+
         <i>here you can <b>add</b> a genre</i ><br>
         <a th:href="@{/editor/addGenre}">
             <button class="button1">Add genre</button>
         </a>
+
     </div>
 </body>
 </html>

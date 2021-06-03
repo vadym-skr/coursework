@@ -27,6 +27,15 @@ public class JournalRating {
 
     private Integer rating;
 
+    public JournalRating() {
+    }
+
+    public JournalRating(User user, Journal journal, Integer rating) {
+        this.user = user;
+        this.journal = journal;
+        this.rating = rating;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

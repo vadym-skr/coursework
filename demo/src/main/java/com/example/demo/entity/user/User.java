@@ -2,6 +2,7 @@ package com.example.demo.entity.user;
 
 import com.example.demo.entity.objects.Book;
 import com.example.demo.entity.objects.BookRating;
+import com.example.demo.entity.objects.Journal;
 import com.example.demo.entity.objects.JournalRating;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,7 +59,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "journal_id")
     )
-    private Set<Book> favoriteJournal = new HashSet<>();
+    private Set<Journal> favoriteJournal = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
     private List<JournalRating> journalRating = new ArrayList<>();

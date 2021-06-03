@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>World of books: show book</title>
+    <title>World of books: show journal</title>
     <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.ico}" href="../../static/images/favicon.ico"/>
     <link th:href="@{/css/all/body.css}" href="../static/css/all/body.css"
           rel="stylesheet" type="text/css" media="screen"/>
@@ -33,48 +33,48 @@
         </div>
     </div>
     <div class="form_one">
-        <h1>Book</h1>
-        <form th:method="POST" th:action="@{/books/{id}(id=${book.getId()})}">
+        <h1>Journal</h1>
+        <form th:method="POST" th:action="@{/journals/{id}(id=${journal.getId()})}">
             <div class="rating-area">
-                <input type="checkbox" id="star-5" th:name="rating" th:checked="${book.getAverageScoreInt() == 5.0}" value="5">
+                <input type="checkbox" id="star-5" th:name="rating" th:checked="${journal.getAverageScoreInt() == 5.0}" value="5">
                 <label for="star-5" title="bookRating «5»"></label>
-                <input type="checkbox" id="star-4" th:name="rating" th:checked="${book.getAverageScoreInt() == 4.0}" value="4">
+                <input type="checkbox" id="star-4" th:name="rating" th:checked="${journal.getAverageScoreInt() == 4.0}" value="4">
                 <label for="star-4" title="bookRating «4»"></label>
-                <input type="checkbox" id="star-3" th:name="rating" th:checked="${book.getAverageScoreInt() == 3.0}" value="3">
+                <input type="checkbox" id="star-3" th:name="rating" th:checked="${journal.getAverageScoreInt() == 3.0}" value="3">
                 <label for="star-3" title="bookRating «3»"></label>
-                <input type="checkbox" id="star-2" th:name="rating" th:checked="${book.getAverageScoreInt() == 2.0}" value="2">
+                <input type="checkbox" id="star-2" th:name="rating" th:checked="${journal.getAverageScoreInt() == 2.0}" value="2">
                 <label for="star-2" title="bookRating «2»"></label>
-                <input type="checkbox" id="star-1" th:name="rating" th:checked="${book.getAverageScoreInt() == 1.0}" value="1">
+                <input type="checkbox" id="star-1" th:name="rating" th:checked="${journal.getAverageScoreInt() == 1.0}" value="1">
                 <label for="star-1" title="bookRating «1»"></label>
             </div>
             <div class="array_buttons_center" style="font-size:60%">
-                <i th:text="${book.getAverageScoreFloat() + ' / ' + book.getBookRatings().size()}"></i> <br>
-                <i th:text="'people who liked it: ' + ${book.getFavoriteUsers().size()}"></i> <br>
+                <i th:text="${journal.getAverageScoreFloat() + ' / ' + journal.getJournalRatings().size()}"></i> <br>
+                <i th:text="'people who liked it: ' + ${journal.getFavoriteUsers().size()}"></i> <br>
                 <div sec:authorize="!isAuthenticated()">
-                    <i style="color: red">registration is required to evaluate the book</i>
+                    <i style="color: red">registration is required to evaluate the journal</i>
                 </div>
             </div>
 
-            <b>Name: </b> <i th:text="${book.getName()}"></i> <br>
-            <b>Author: </b> <i th:text="${book.getAuthor()}"></i> <br>
-            <b>Pages: </b> <i th:text="${book.getPages()}"></i> <br>
-            <b>Country: </b> <i th:text="${book.getCountry()}"></i> <br>
+            <b>Name: </b> <i th:text="${journal.getName()}"></i> <br>
+            <b>Publisher: </b> <i th:text="${journal.getPublisher()}"></i> <br>
+            <b>Publishing term: </b> <i th:text="${journal.getPublishingTerm()}"></i> <br>
+            <b>Country: </b> <i th:text="${journal.getCountry()}"></i> <br>
             <b>Description: </b> <br>
-            <textarea readonly th:text="${book.getDescription()}" name="description" id="description" rows="6" cols="60"></textarea> <br>
+            <textarea readonly th:text="${journal.getDescription()}" name="description" id="description" rows="6" cols="60"></textarea> <br>
             <b>Genres: </b>
-            <div th:if="${!book.getGenres().isEmpty()}">
+            <div th:if="${!journal.getGenres().isEmpty()}">
                 <ul class="ul_checked">
-                    <li th:each="genre : ${book.getGenres()}">
+                    <li th:each="genre : ${journal.getGenres()}">
                         <i th:text="${genre.getName()}"></i>
                     </li>
                 </ul> <br>
             </div>
-            <div th:unless="${!book.getGenres().isEmpty()}">
+            <div th:unless="${!journal.getGenres().isEmpty()}">
                 [Don't have any genre]
             </div> <br>
             <div class="array_buttons_center">
                 <div sec:authorize="isAuthenticated()">
-                    <input type="checkbox" th:name="favorite" th:checked="${isFavorite}"> <i style="font-size:60%"> add it to favorite books </i> <br>
+                    <input type="checkbox" th:name="favorite" th:checked="${isFavorite}"> <i style="font-size:60%"> add it to favorite journals </i> <br>
                 </div> <br>
                 <input class="button1" type="submit" value="Back">
             </div>

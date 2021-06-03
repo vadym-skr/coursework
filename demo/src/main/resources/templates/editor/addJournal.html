@@ -27,21 +27,21 @@
     </div>
 
     <div class="form_one">
-        <h1>Add book</h1>
-        <form th:method="POST" th:action="@{/editor/addBook}" th:object="${book}">
+        <h1>Add journal</h1>
+        <form th:method="POST" th:action="@{/editor/addJournal}" th:object="${journal}">
             <label for="name">Name: </label> <br>
             <input type="text" th:field="*{name}" id="name"/>
             <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
             <div style="color:red" th:if="${nameErr != null}" th:text="${nameErr}">Name error</div>
             <br>
-            <label for="author">Author: </label> <br>
-            <input type="text" th:field="*{author}" id="author"/>
-            <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
+            <label for="publisher">Publisher: </label> <br>
+            <input type="text" th:field="*{publisher}" id="publisher"/>
+            <div style="color:red" th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}">Publisher error</div>
             <br>
-            <label for="pages">Pages: </label> <br>
-            <input type="text" th:field="*{pages}" id="pages"/>
-            <div style="color:red" th:if="${#fields.hasErrors('pages') && pagesErr == null}" th:errors="*{pages}">Pages error</div>
-            <div style="color:red" th:if="${pagesErr != null}" th:text="${pagesErr}">Pages error</div>
+            <label for="publishingTerm">Publishing term: </label> <br>
+            <input type="text" th:field="*{publishingTerm}" id="publishingTerm"/>
+            <div style="color:red" th:if="${#fields.hasErrors('publishingTerm') && publishingTermErr == null}" th:errors="*{publishingTerm}">PublishingTerm error</div>
+            <div style="color:red" th:if="${publishingTermErr != null}" th:text="${publishingTermErr}">publishingTerm error</div>
             <br>
             <label for="country">Country: </label> <br>
             <input type="text" th:field="*{country}" id="country"/>
@@ -53,7 +53,7 @@
             <br>
             <label>Genres:</label>
             <div th:each="genre : ${allGenres}">
-                <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${book.getGenres().contains(genre)}"/>
+                <input type="checkbox" th:name="genres" th:value="${genre.getName()}" th:checked="${journal.getGenres().contains(genre)}"/>
                 <label th:text="${genre.getName()}"></label>
             </div>
             <br>

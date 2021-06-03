@@ -27,4 +27,9 @@ public interface GenreRepository  extends JpaRepository<Genre, Integer> {
     @Query(value = "DELETE FROM books_genres as g" +
             " where g.genre_id = :id", nativeQuery = true)
     void deleteGenreForAllBooks(Integer id);
+
+    @Modifying
+    @Query(value = "DELETE FROM journal_genres as g" +
+            " where g.genre_id = :id", nativeQuery = true)
+    void deleteGenreForAllJournals(Integer id);
 }

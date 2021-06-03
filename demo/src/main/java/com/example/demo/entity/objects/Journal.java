@@ -46,4 +46,33 @@ public class Journal extends AbstractBook  {
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "favoriteJournal")
     private Set<User> favoriteUsers = new HashSet<>();
 
+    public Journal() {
+    }
+
+    public float getAverageScoreFloat() {
+        float averageScore = 0;
+        int size = journalRatings.size();
+        if(size != 0) {
+            for(JournalRating journalRating : journalRatings) {
+                averageScore += journalRating.getRating();
+            }
+            averageScore = averageScore/size;
+            return averageScore;
+        }
+        return 0;
+    }
+
+    public float getAverageScoreInt() {
+        float averageScore = 0;
+        int size = journalRatings.size();
+        if(size != 0) {
+            for(JournalRating journalRating : journalRatings) {
+                averageScore += journalRating.getRating();
+            }
+            averageScore = averageScore/size;
+            return Math.round(averageScore);
+        }
+        return 0;
+    }
+
 }
