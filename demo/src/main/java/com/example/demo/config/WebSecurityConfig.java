@@ -30,10 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+
     // AuthenticationProvider Реалізація, яка витягує інформацію про користувача з UserDetailsService.
 
     //DaoAuthenticationProvider- це простий провайдер аутентифікації, який використовує об'єкт доступу до даних (DAO) для добування інформації про користувача з реляційної бази даних. Він використовує UserDetailsService (як DAO) для пошуку імені користувача, пароля. Він аутентифікує користувача, просто порівнюючи пароль, представлений в файлі, з паролем, UsernamePasswordAuthenticationToken завантаженим в UserDetailsService.
+    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -41,14 +42,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Override
+
     //HttpSecurity - дозволяє налаштувати безпеку на основі Інтернету для певних HTTP-запитів. За замовчуванням він буде застосовуватися до всіх запитів, але його можна обмежити за допомогою requestMatcher (RequestMatcher) або інших аналогічних методів.
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers( "/images/**", "/css/**", "/", "/user", "/user/registration", "/**").permitAll()
-                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN", "CREATOR")
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers( "/images/**", "/css/**", "/books", "/", "/journals", "/books/**", "/journals/**", "/user/registration").permitAll()
+                .antMatchers("/user/**").hasAnyAuthority("USER")
+                .antMatchers("/favoriteBooks", "/favoriteJournals", "/editor/**").hasAnyAuthority("ADMIN", "EDITOR")
+                .antMatchers("/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()

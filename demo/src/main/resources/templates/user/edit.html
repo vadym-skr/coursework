@@ -37,7 +37,9 @@
             <input type="text" th:field="*{email}" id="email"/>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             <br/>
-            <input class="button1" type="submit" value="Update!">
+            <div class="array_buttons_center">
+                <input class="button1" type="submit" value="Update!">
+            </div>
         </form>
     </div>
 </body>
